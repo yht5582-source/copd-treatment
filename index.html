@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>COPD 治療指引 — GOLD 2026 互動決策工具</title>
+<script>try{const t=localStorage.getItem('copd-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
 <style>
 :root{
   --bg:#0f1720; --bg2:#151f2b; --card:#1b2634; --card2:#22303f;
@@ -64,8 +65,10 @@ h2:first-child{margin-top:6px}
 h3{font-size:15.5px;font-weight:650;margin:20px 0 8px;color:var(--tx)}
 p{margin-bottom:10px;color:var(--tx2)}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px;margin-bottom:16px}
-.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
-.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:14px}
+.card{overflow-x:auto}
+.sh{font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--tx3);margin:16px 0 8px}
 ul,ol{margin:8px 0 12px 20px;color:var(--tx2)}
 li{margin-bottom:5px}
 b,strong{color:var(--tx);font-weight:650}
@@ -95,7 +98,8 @@ td b{color:var(--tx)}
 
 /* ---------- tool ---------- */
 .tool{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
-@media(max-width:900px){.tool{grid-template-columns:1fr}}
+@media(max-width:900px){.tool{grid-template-columns:1fr}.panel.sticky{position:static}}
+@media(max-width:560px){.wrap{padding:0 16px 60px}h1{font-size:21px}.abe{grid-template-columns:76px 1fr 1fr;font-size:12px}.card,.panel{padding:15px}}
 .panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px}
 .panel.sticky{position:sticky;top:16px}
 .fg{margin-bottom:18px}
@@ -107,6 +111,7 @@ label.lbl em{font-style:normal;color:var(--tx3);font-weight:400;font-size:12px}
   color:var(--tx2);padding:8px 10px;border-radius:8px;cursor:pointer;font-size:13px;
   font-family:inherit;transition:.12s}
 .opt:hover{border-color:var(--line2);color:var(--tx)}
+.opt:focus-visible,.tab:focus-visible,.tbtn:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
 .opt.on{background:var(--ac);border-color:var(--ac);color:#04211d;font-weight:650}
 [data-theme="light"] .opt.on{color:#fff}
 input[type=number],select{width:100%;background:var(--card2);border:1px solid var(--line);
@@ -179,7 +184,7 @@ input[type=number]:focus,select:focus{outline:none;border-color:var(--ac)}
 footer{margin-top:44px;padding-top:20px;border-top:1px solid var(--line);color:var(--tx3);font-size:12px}
 footer a{color:var(--ac);text-decoration:none}
 footer a:hover{text-decoration:underline}
-@media print{nav,.tbtn,.reset{display:none}section{display:block!important}}
+@media print{nav,.tbtn,.reset{display:none}section{display:block!important}.panel.sticky{position:static}}
 </style>
 </head>
 <body>
@@ -193,14 +198,14 @@ footer a:hover{text-decoration:underline}
     </div>
     <button class="tbtn" onclick="tt()">◐ 切換深／淺色</button>
   </div>
-  <nav>
-    <button class="tab on" data-t="tool">互動決策工具</button>
-    <button class="tab" data-t="dx">診斷與評估</button>
-    <button class="tab" data-t="rx">藥物治療</button>
-    <button class="tab" data-t="nonrx">非藥物治療</button>
-    <button class="tab" data-t="ae">急性惡化 AECOPD</button>
-    <button class="tab" data-t="new">2026 更新重點</button>
-    <button class="tab" data-t="nhi">附錄：台灣藥品與健保註記</button>
+  <nav role="tablist" aria-label="章節">
+    <button class="tab on" role="tab" data-t="tool">互動決策工具</button>
+    <button class="tab" role="tab" data-t="dx">診斷與評估</button>
+    <button class="tab" role="tab" data-t="rx">藥物治療</button>
+    <button class="tab" role="tab" data-t="nonrx">非藥物治療</button>
+    <button class="tab" role="tab" data-t="ae">急性惡化 AECOPD</button>
+    <button class="tab" role="tab" data-t="new">2026 更新重點</button>
+    <button class="tab" role="tab" data-t="nhi">附錄：台灣藥品與健保註記</button>
   </nav>
 </div>
 </header>
@@ -225,7 +230,7 @@ footer a:hover{text-decoration:underline}
 
     <div class="fg">
       <label class="lbl">② FEV₁ % predicted <em>（post-BD，用於 GOLD 1–4 分級）</em></label>
-      <input type="number" id="q_fev" placeholder="例如 55" min="1" max="150">
+      <input type="number" id="q_fev" inputmode="decimal" placeholder="例如 55" min="1" max="150">
     </div>
 
     <div class="fg">
@@ -244,7 +249,7 @@ footer a:hover{text-decoration:underline}
         </div>
         <div>
           <small>CAT（0–40）</small>
-          <input type="number" id="q_cat" placeholder="例如 18" min="0" max="40">
+          <input type="number" id="q_cat" step="1" inputmode="numeric" placeholder="例如 18" min="0" max="40">
         </div>
       </div>
     </div>
@@ -254,18 +259,18 @@ footer a:hover{text-decoration:underline}
       <div class="row">
         <div>
           <small>中度（門診用類固醇／抗生素）</small>
-          <input type="number" id="q_mod" value="0" min="0" max="20">
+          <input type="number" id="q_mod" step="1" inputmode="numeric" value="0" min="0" max="20">
         </div>
         <div>
           <small>重度（急診／住院）</small>
-          <input type="number" id="q_sev" value="0" min="0" max="20">
+          <input type="number" id="q_sev" step="1" inputmode="numeric" value="0" min="0" max="20">
         </div>
       </div>
     </div>
 
     <div class="fg">
       <label class="lbl">⑤ 血中嗜酸性球 <em>Blood eosinophil count（cells/µL）</em></label>
-      <input type="number" id="q_eos" placeholder="例如 220" min="0" max="5000">
+      <input type="number" id="q_eos" inputmode="decimal" placeholder="例如 220" min="0" max="5000">
       <small>建議於病情穩定期測量、並取 ≥2 次結果判讀（個體內變異大）</small>
     </div>
 
@@ -638,9 +643,9 @@ footer a:hover{text-decoration:underline}
 <h3>Rome 提案（依就診時客觀嚴重度）</h3>
 <table>
 <tr><th>等級</th><th>判定</th></tr>
-<tr><td><b>Mild</b></td><td>呼吸困難 VAS &lt;5、RR &lt;24/min、HR &lt;95/min、SpO₂ ≥92%（且較基礎值下降 &lt;3%）、CRP &lt;10 mg/L</td></tr>
-<tr><td><b>Moderate</b></td><td>符合上述之三項以上異常，但無高碳酸或酸中毒；或 CRP ≥10 mg/L</td></tr>
-<tr><td><b>Severe</b></td><td>出現<b>高碳酸血症（PaCO₂ &gt;45 mmHg）</b>且／或 <b>酸中毒（pH &lt;7.35）</b></td></tr>
+<tr><td><b>Mild</b></td><td>呼吸困難 VAS &lt;5、RR &lt;24/min、HR &lt;95/min、靜息 SpO₂ ≥92%（且較基礎值下降 ≤3%）、CRP &lt;10 mg/L（未達中度標準）</td></tr>
+<tr><td><b>Moderate</b></td><td>下列 5 項中<b>符合 ≥3 項</b>：VAS ≥5、RR ≥24/min、HR ≥95/min、SpO₂ &lt;92% 或較基礎值下降 &gt;3%、CRP ≥10 mg/L；可有低血氧（PaO₂ ≤60 mmHg）及／或高碳酸血症，但<b>無酸中毒</b></td></tr>
+<tr><td><b>Severe</b></td><td>同中度之臨床表現，且動脈血液氣體出現<b>高碳酸血症（PaCO₂ &gt;45 mmHg）合併酸中毒（pH &lt;7.35）</b></td></tr>
 </table>
 <small>GOLD 2026 第 4 章全面改寫，強化就診時的客觀嚴重度評估與氧療指引。</small>
 </div>
@@ -898,7 +903,7 @@ footer a:hover{text-decoration:underline}
 
 <footer>
 <p><b>資料來源</b>　GOLD（Global Initiative for Chronic Obstructive Lung Disease）2026 Report 及 2026 Pocket Guide（2025 年 11 月發布）；GOLD 2026 Key Changes Summary；相關同儕審查回顧文獻。完整原文請至 <a href="https://goldcopd.org" target="_blank">goldcopd.org</a> 下載。</p>
-<p style="margin-top:8px">本頁為臨床決策輔助工具，非官方文件、亦非 GOLD 授權之翻譯版本。用藥前請核對台灣核准適應症與健保給付規範。建立日期：2026-08-15。</p>
+<p style="margin-top:8px">本頁為臨床決策輔助工具，非官方文件、亦非 GOLD 授權之翻譯版本。用藥前請核對台灣核准適應症與健保給付規範。建立日期：2026-08-15；v1.1 除錯更新：2026-10-25。</p>
 </footer>
 
 </div>
@@ -907,19 +912,25 @@ footer a:hover{text-decoration:underline}
 /* ---------- theme ---------- */
 function tt(){
   const h=document.documentElement;
-  h.setAttribute('data-theme', h.getAttribute('data-theme')==='light'?'dark':'light');
+  const t=h.getAttribute('data-theme')==='light'?'dark':'light';
+  h.setAttribute('data-theme',t);
+  try{localStorage.setItem('copd-theme',t);}catch(e){}
 }
 
 /* ---------- tabs ---------- */
+function showTab(id,push){
+  const b=document.querySelector('.tab[data-t="'+id+'"]'); if(!b) return;
+  document.querySelectorAll('.tab').forEach(x=>{x.classList.remove('on');x.setAttribute('aria-selected','false');});
+  document.querySelectorAll('section').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on'); b.setAttribute('aria-selected','true');
+  document.getElementById(id).classList.add('on');
+  if(push) history.replaceState(null,'','#'+id);
+}
 document.querySelectorAll('.tab').forEach(b=>{
-  b.onclick=()=>{
-    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
-    document.querySelectorAll('section').forEach(x=>x.classList.remove('on'));
-    b.classList.add('on');
-    document.getElementById(b.dataset.t).classList.add('on');
-    window.scrollTo({top:0,behavior:'smooth'});
-  };
+  b.onclick=()=>{showTab(b.dataset.t,true);window.scrollTo({top:0,behavior:'smooth'});};
 });
+showTab(location.hash.slice(1)||'tool',false);
+window.addEventListener('hashchange',()=>showTab(location.hash.slice(1)||'tool',false));
 
 /* ---------- option button groups ---------- */
 const S={dx:'1',main:'dysp'};
@@ -936,10 +947,11 @@ document.querySelectorAll('.opts').forEach(g=>{
  'c_cb','c_asth','c_pna','c_ntm','c_smk','c_hypox','c_hyperc','c_qt']
  .forEach(id=>{const e=document.getElementById(id);e.addEventListener('input',run);e.addEventListener('change',run);});
 
-document.getElementById('q_cur').addEventListener('change',()=>{
+function syncMain(){
   document.getElementById('wrap_main').style.display =
     document.getElementById('q_cur').value==='none' ? 'none' : 'block';
-});
+}
+document.getElementById('q_cur').addEventListener('change',syncMain);
 
 function rst(){
   ['q_fev','q_cat','q_eos'].forEach(i=>document.getElementById(i).value='');
@@ -952,75 +964,86 @@ function rst(){
     g.querySelectorAll('.opt').forEach((b,i)=>b.classList.toggle('on',i===0));
   });
   S.dx='1'; S.main='dysp';
-  document.getElementById('wrap_main').style.display='none';
+  syncMain();
   run();
 }
 
 const num=id=>{const v=document.getElementById(id).value;return v===''?null:Number(v);};
 const chk=id=>document.getElementById(id).checked;
-const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
 
-/* ---------- engine ---------- */
-function run(){
-  const out=document.getElementById('out');
-  const fev=num('q_fev'), mmrc=num('q_mmrc'), cat=num('q_cat');
-  const mod=num('q_mod')||0, sev=num('q_sev')||0, eos=num('q_eos');
-  const cur=document.getElementById('q_cur').value;
-  const main=cur==='none'?'none':S.main;
-  const cb=chk('c_cb'), asth=chk('c_asth'), pna=chk('c_pna'), ntm=chk('c_ntm'),
-        smk=chk('c_smk'), hypox=chk('c_hypox'), hyperc=chk('c_hyperc'), qt=chk('c_qt');
+/*ENGINE-START*/
+const COPD=(()=>{
+const LIM={fev:[1,150,'FEV₁ % predicted',false],mmrc:[0,4,'mMRC',true],cat:[0,40,'CAT',true],
+           mod:[0,20,'中度惡化次數',true],sev:[0,20,'重度惡化次數',true],eos:[0,5000,'嗜酸性球',false]};
+
+function validate(i){
+  const err=[];
+  for(const k in LIM){
+    const v=i[k]; if(v===null||v===undefined) continue;
+    const [lo,hi,name,int]=LIM[k];
+    if(!Number.isFinite(v)||v<lo||v>hi||(int&&!Number.isInteger(v)))
+      err.push(`${name} 須為 ${lo}–${hi}${int?' 之整數':''}（目前：${v}）`);
+  }
+  return err;
+}
+
+function decide(i){
+  const f=i.flags||{};
+  const {cb,asth,pna,ntm,smk,hypox,hyperc,qt}=f;
+  const fev=i.fev??null, mmrc=i.mmrc??null, cat=i.cat??null, eos=i.eos??null;
+  const cur=i.cur||'none';
+  const main=cur==='none'?'none':(i.main||'dysp');
+
+  const errors=validate(i);
+  if(errors.length) return {state:'invalid',errors};
 
   /* --- gate: diagnosis --- */
-  if(S.dx!=='1'){
-    out.innerHTML=`<div class="rhead"><div class="gletter gX">!</div>
-      <div><div class="gttl">尚未符合 COPD 診斷</div>
-      <div class="gsub">post-BD FEV₁/FVC ≥ 0.70</div></div></div>
-      <div class="rx"><div class="rx-t">建議</div>
-      <div class="rx-m">重新檢視診斷</div>
-      <div class="rx-d">未達持續性氣流阻塞標準。請考慮：<b>Pre-COPD</b>（有症狀／構造或生理異常但比值正常）、<b>PRISm</b>（比值 ≥0.70 但 FEV₁ &lt;80%）、氣喘、支氣管擴張症、間質性肺病、心衰竭、貧血、去適應。</div></div>
-      <ul class="steps">
-      <li>Pre-COPD／PRISm 屬高風險族群：肺功能下降較快、症狀負荷高、死亡率上升</li>
-      <li>應積極<b>戒菸、接種疫苗、定期追蹤肺功能</b></li>
-      <li>目前無確立之維持性吸入藥物適應症，用藥須個別化</li>
-      <li>檢視 DLCO、肺容積、胸部 CT、心臟評估以釐清症狀來源</li></ul>`;
-    return;
+  if(i.dx!=='1'){
+    const prism = fev!==null && fev<80;
+    return {state:'nodx',prism,fev};
   }
 
   /* --- gate: enough input --- */
-  const hasSx = mmrc!==null || cat!==null;
-  if(!hasSx){
-    out.innerHTML=`<div class="empty">請至少填入 <b>mMRC</b> 或 <b>CAT</b> 分數，即可產生 ABE 分組與治療建議。</div>`;
-    return;
-  }
+  if(mmrc===null && cat===null) return {state:'need'};
 
-  /* --- ABE --- */
-  const exac = mod + sev;
-  const hiSx = (mmrc!==null && mmrc>=2) || (cat!==null && cat>=10);
-  let G = exac>=1 ? 'E' : (hiSx ? 'B' : 'A');
+  const mod=i.mod||0, sev=i.sev||0;
+  const exac=mod+sev;
+  const hiSx=(mmrc!==null&&mmrc>=2)||(cat!==null&&cat>=10);
+  const G=exac>=1?'E':(hiSx?'B':'A');
+  /* 健保條文仍用舊 Group D：症狀高負荷 + (≥2 次中度 或 ≥1 次住院) */
+  const oldHiRisk = mod>=2 || sev>=1;
+  const oldD = hiSx && oldHiRisk;
+  const gold = fev===null?null:fev>=80?'GOLD 1':fev>=50?'GOLD 2':fev>=30?'GOLD 3':'GOLD 4';
 
-  const gName={A:'Group A｜症狀少、低惡化風險',B:'Group B｜症狀多、低惡化風險',E:'Group E｜高惡化風險'};
-  let gold='', goldTxt='';
-  if(fev!==null){
-    gold = fev>=80?'GOLD 1':fev>=50?'GOLD 2':fev>=30?'GOLD 3':'GOLD 4';
-    goldTxt = ` · ${gold}（FEV₁ ${fev}%）`;
-  }
-  const sxTxt = [mmrc!==null?`mMRC ${mmrc}`:null, cat!==null?`CAT ${cat}`:null].filter(Boolean).join('、');
-  const eosTxt = eos===null?'嗜酸性球未填':`Eos ${eos}/µL`;
+  const eLow =eos!==null&&eos<100;
+  const eHigh=eos!==null&&eos>=300;
+  const icsContra=!!(pna||ntm);
 
-  /* --- treatment --- */
-  let title='', detail='', steps=[], alerts=[], trail=[];
+  let title='',detail='',steps=[],alerts=[],trail=[];
   trail.push(`惡化 ${mod} 中度 + ${sev} 重度 = ${exac} 次 → ${exac>=1?'Group E':'0 次'}`);
-  if(exac<1) trail.push(`症狀 ${sxTxt} → ${hiSx?'高症狀 → Group B':'低症狀 → Group A'}`);
+  if(exac<1) trail.push(`症狀 ${hiSx?'高負荷 → Group B':'低負荷 → Group A'}`);
 
-  const eLow  = eos!==null && eos<100;
-  const eMid  = eos!==null && eos>=100 && eos<300;
-  const eHigh = eos!==null && eos>=300;
-  const icsContra = pna || ntm;
+  const nonIcsSteps=[
+    '<b>Roflumilast 500 µg PO QD</b> — 限 FEV₁ &lt;50% 且有慢性支氣管炎',
+    '<b>Azithromycin</b> 250 mg QD 或 500 mg 每週 3 次（約 1 年）— 前吸菸者效果較佳；用藥前查 ECG（QTc）與聽力',
+    '未用 ICS 者可考慮黏液調節劑（NAC／carbocysteine／erdosteine）',
+    '重新檢視誘因、共病與非藥物治療'];
 
   /* ===== treatment-naive ===== */
   if(cur==='none'){
     trail.push('目前無維持性用藥 → 走「初始治療」路徑 (Fig 3.7/3.8)');
-    if(G==='A'){
+    if(asth){
+      if(G==='A'){
+        title='含 ICS 之方案：ICS + LABA';
+        detail='合併氣喘病史者治療應依氣喘原則<b>必須含 ICS</b>，不可單用不含 ICS 的長效支氣管擴張劑。症狀輕且無惡化者可由 ICS+LABA 起始。';
+        steps=['依氣喘嚴重度選擇 ICS 劑量，並開立緩解藥','4–12 週後回診評估症狀與吸入技術','若症狀持續或出現惡化 → 加 LAMA 成三合一','核心處置仍是戒菸、疫苗、規律運動'];
+      } else {
+        title='LABA + LAMA + ICS（三合一）';
+        detail=`合併氣喘病史者必須含 ICS；${G==='E'?'已有惡化史':'症狀負荷高'}，建議以單一裝置三合一起始（亦可依氣喘原則先用 ICS+LABA）。`;
+        steps=['選擇單一吸入裝置之三合一複方','開立<b>書面行動計畫</b>並衛教早期辨識惡化','轉介肺部復健','4 週內回診確認治療反應與吸入技術'];
+      }
+      trail.push('合併氣喘 → 起始即含 ICS');
+    } else if(G==='A'){
       title='單一長效支氣管擴張劑（LAMA 或 LABA）';
       detail='症狀輕微且無惡化史。可先給予長效單方；症狀極少者亦可僅按需使用 SABA。用藥後應重新評估症狀是否改善，無效則停用而非盲目加藥。';
       steps=['建議優先選 LAMA（長期預防惡化證據較佳）',
@@ -1035,14 +1058,14 @@ function run(){
              '不應因症狀多而加 ICS——ICS 是為了預防惡化，不是為了緩解症狀',
              '4–12 週回診評估 CAT 變化與吸入技術'];
     } else {
-      if(asth){
-        title='LABA + LAMA + ICS（三合一）';
-        detail='合併氣喘病史者必須含 ICS，且不應使用未合併 ICS 的長效支氣管擴張劑單方。';
-        trail.push('合併氣喘 → 起始即含 ICS');
-      } else if(eHigh && !icsContra){
+      if(eHigh && !icsContra){
         title='LABA + LAMA + ICS（三合一）';
         detail=`血中嗜酸性球 ${eos} cells/µL（≥300）預示對 ICS 反應良好，且已有惡化史，建議起始即採三合一。`;
         trail.push(`Eos ${eos} ≥300 → 起始加 ICS (Fig 3.8)`);
+      } else if(eHigh && icsContra){
+        title='LABA + LAMA（ICS 需個別權衡）';
+        detail=`血中嗜酸性球 ${eos} cells/µL（≥300）原本支持起始加 ICS，但有${pna?'反覆肺炎':''}${pna&&ntm?'及':''}${ntm?'分枝桿菌感染':''}病史，ICS 風險升高。建議先以雙支氣管擴張劑起始，若仍惡化再權衡風險效益決定是否加 ICS。`;
+        trail.push(`Eos ${eos} ≥300 但有 ICS 風險因子 → 先 LABA+LAMA`);
       } else if(eos===null){
         title='LABA + LAMA（並盡快檢驗嗜酸性球）';
         detail='Group E 起始以雙支氣管擴張劑為主。請補驗穩定期血中嗜酸性球：若 ≥300 cells/µL 應考慮起始即加 ICS。';
@@ -1064,23 +1087,42 @@ function run(){
   else{
     const curName={mono:'單一長效支氣管擴張劑',dual:'LABA + LAMA',labaics:'LABA + ICS',triple:'三合一 LABA+LAMA+ICS'}[cur];
     trail.push(`目前 ${curName} → 走「後續追蹤治療」路徑 (Fig 3.9)，主要問題：${main==='dysp'?'呼吸困難':main==='exac'?'急性惡化':'兩者'}`);
+    const wantExac=(main==='exac'||main==='both');
 
-    const wantExac = (main==='exac'||main==='both');
-    const wantDysp = (main==='dysp'||main==='both');
+    /* --- 合併氣喘但未含 ICS：先補 ICS --- */
+    if(asth && (cur==='mono'||cur==='dual')){
+      title= cur==='dual' ? '加上 ICS → 三合一 LABA + LAMA + ICS' : '改為含 ICS 之方案：三合一（或 ICS + LABA）';
+      detail='合併氣喘病史者<b>不可使用不含 ICS 的長效支氣管擴張劑</b>（氣喘死亡風險）。應先補上 ICS，再依症狀／惡化評估後續調整。';
+      steps=['選擇單一吸入裝置之含 ICS 複方','確認吸入技術與順從性','4–8 週回診評估症狀與惡化','依氣喘原則調整 ICS 劑量'];
+      trail.push('合併氣喘且未用 ICS → 優先補 ICS');
+    }
 
-    /* --- LABA+ICS 一律先修正 --- */
-    if(cur==='labaics'){
-      if(asth || eHigh || icsContra===false && exac>=1){
+    /* --- LABA+ICS：重新評估 ICS 指徵 --- */
+    else if(cur==='labaics'){
+      const icsStrong = asth || eHigh || oldHiRisk;          /* GOLD：氣喘、Eos≥300、≥1 次住院或 ≥2 次中度 */
+      const icsMaybe  = exac>=1 && eos!==null && eos>=100;    /* 1 次中度 + Eos 100–299 */
+      if(asth || (!icsContra && (icsStrong||icsMaybe) && !eLow) || (eHigh && icsContra && wantExac)){
         title='加上 LAMA → 三合一 LABA + LAMA + ICS';
-        detail='COPD 不應長期停留在 LABA+ICS。若有 ICS 使用指徵（氣喘、Eos ≥300、反覆惡化），正確做法是加上 LAMA。';
+        detail='COPD 不應長期停留在 LABA+ICS。本例有 ICS 使用指徵（'+[asth&&'氣喘',eHigh&&'Eos ≥300',oldHiRisk&&'住院或 ≥2 次中度惡化',(!eHigh&&icsMaybe)&&`惡化 + Eos ${eos}`].filter(Boolean).join('、')+'），正確做法是加上 LAMA。'
+          +(icsContra&&!asth?'<br>注意：有肺炎／分枝桿菌病史，需密切監測 ICS 副作用。':'');
+        steps=['選擇單一吸入裝置之三合一複方，避免多裝置混用',
+               '確認吸入技術與順從性',
+               '4–8 週回診評估症狀與惡化',
+               '若三合一下仍惡化 → 依 Eos 考慮 roflumilast／azithromycin 或生物製劑'];
+        trail.push('LABA+ICS 且有 ICS 指徵 → 加 LAMA');
+      } else if(eos===null && exac>=1 && !icsContra){
+        title='先檢驗血中嗜酸性球，再決定加 LAMA 或撤除 ICS';
+        detail='LABA+ICS 不是 COPD 的建議組合。有惡化史時：Eos ≥100 → 加 LAMA 成三合一；Eos &lt;100 → 改為 LABA+LAMA。';
+        steps=['穩定期抽驗血中嗜酸性球（建議 ≥2 次）','在結果出來前勿貿然停用 ICS','確認吸入技術與順從性'];
+        trail.push('LABA+ICS + Eos 未填 → 先補驗');
       } else {
         title='改為 LABA + LAMA（撤除 ICS）';
-        detail='在沒有氣喘特徵、嗜酸性球不高、或有 ICS 禁忌時，LABA+ICS 預防惡化效果不如雙支氣管擴張劑，且增加肺炎風險，建議轉換為 LABA+LAMA。';
+        detail='沒有明確 ICS 指徵（'+[eLow&&`Eos ${eos} <100`,icsContra&&'肺炎／分枝桿菌病史',exac===0&&'無惡化史'].filter(Boolean).join('、')+'）時，LABA+ICS 預防惡化效果不如雙支氣管擴張劑，且增加肺炎風險，建議轉換為 LABA+LAMA。';
+        steps=['撤除 ICS 時<b>務必保留雙支氣管擴張劑</b>，勿降為單方',
+               '轉換後密切追蹤 4–8 週，注意症狀與惡化是否反彈',
+               '重新確認吸入器操作技術'];
+        trail.push('LABA+ICS 無 ICS 指徵 → 改 LABA+LAMA');
       }
-      steps=['轉換後密切追蹤 4–8 週，注意症狀與惡化是否反彈',
-             '撤除 ICS 時務必保留雙支氣管擴張劑，勿降為單方',
-             '重新確認吸入器操作技術'];
-      trail.push('LABA+ICS 為 COPD 不建議之組合 → 優先修正');
     }
 
     /* --- 惡化為主 --- */
@@ -1102,26 +1144,29 @@ function run(){
       else if(cur==='dual'){
         if(icsContra){
           title='不加 ICS；考慮 Roflumilast 或 Azithromycin';
-          detail='有反覆肺炎或分枝桿菌感染病史，ICS 風險大於效益。改採非 ICS 之抗惡化策略。';
-          trail.push('ICS 禁忌（肺炎／分枝桿菌史）→ 跳過 ICS');
+          detail='有反覆肺炎或分枝桿菌感染病史，ICS 風險大於效益。改採非 ICS 之抗惡化策略。'
+            +(eHigh?`<br>Eos ${eos} ≥300 屬 ICS 強指徵，若非 ICS 策略無效，可在密切監測下個別權衡加 ICS。`:'');
+          trail.push('ICS 風險因子（肺炎／分枝桿菌史）→ 跳過 ICS');
+          steps=nonIcsSteps.slice();
         } else if(eos===null){
           title='先檢驗血中嗜酸性球，再決定是否加 ICS';
           detail='這是決策分岔點：若 Eos ≥100 cells/µL，加 ICS 成三合一；若 <100，改採 roflumilast 或 azithromycin。';
           trail.push('Eos 未填 → 無法完成後續分流');
+          steps=['穩定期抽驗血中嗜酸性球（建議 ≥2 次）'].concat(nonIcsSteps.slice(0,2).map(s=>'若 Eos &lt;100：'+s));
         } else if(eos>=100){
           title='加上 ICS → 三合一 LABA + LAMA + ICS';
           detail=`在雙支氣管擴張劑下仍持續惡化，Eos ${eos} cells/µL（≥100），加 ICS 可進一步降低惡化率。`;
           trail.push(`Eos ${eos} ≥100 → 加 ICS 成三合一 (Fig 3.9)`);
+          steps=['選擇單一裝置之三合一複方，避免多裝置混用',
+                 '確認吸入技術與順從性',
+                 '4–8 週回診評估；若三合一下仍惡化 → roflumilast／azithromycin，Eos ≥300 者考慮生物製劑',
+                 '重新檢視誘因、共病與非藥物治療'];
         } else {
           title='不建議加 ICS；改用 Roflumilast 或 Azithromycin';
           detail=`Eos ${eos} cells/µL（<100），ICS 預期效益低而肺炎風險相對高。`;
           trail.push(`Eos ${eos} <100 → 不加 ICS，走 roflumilast／azithromycin`);
+          steps=nonIcsSteps.slice();
         }
-        steps=['<b>Roflumilast 500 µg PO QD</b> — 限 FEV₁ &lt;50% 且有慢性支氣管炎',
-               '<b>Azithromycin</b> 250 mg QD 或 500 mg 每週 3 次（約 1 年）— 前吸菸者效果較佳',
-               '未用 ICS 者可考慮黏液調節劑（NAC／carbocysteine／erdosteine）',
-               '重新檢視誘因、共病與非藥物治療'];
-        if(eos!==null && eos>=100 && !icsContra) steps.unshift('選擇單一裝置之三合一複方，避免多裝置混用');
       }
       else { /* triple */
         if(eHigh){
@@ -1132,20 +1177,20 @@ function run(){
                  `<b>Mepolizumab</b> 100 mg SC 每 4 週 — 不論有無慢性支氣管炎皆可；惡化下降約 18–21%，但肺功能／生活品質改善不顯著`,
                  `<b>Benralizumab 不建議使用</b>（未顯示可降低惡化率）`,
                  `同時可併用 roflumilast（FEV₁&lt;50% + 慢性支氣管炎）或 azithromycin（前吸菸者優先）`];
-        } else if(eLow){
+        } else if(eLow && !asth){
           title='評估撤除 ICS；改採 Roflumilast 或 Azithromycin';
           detail=`Eos ${eos} cells/µL（<100）且三合一下仍持續惡化，顯示 ICS 效益有限，而肺炎風險持續累積。可考慮在保留 LABA+LAMA 的前提下撤除 ICS，並改用非 ICS 抗惡化策略。`;
           trail.push(`三合一 + 惡化 + Eos ${eos} <100 → 考慮 ICS 退場`);
           steps=['撤除 ICS 時<b>務必保留雙支氣管擴張劑</b>，並於 4–8 週密切追蹤',
-                 '<b>Roflumilast 500 µg QD</b> — 限 FEV₁ &lt;50% 且慢性支氣管炎',
-                 '<b>Azithromycin</b> — 前吸菸者優先，用藥前查 ECG（QTc）與聽力',
+                 nonIcsSteps[0],nonIcsSteps[1],
                  '重新評估支氣管擴張症、慢性感染（含 NTM）、免疫球蛋白缺乏'];
         } else {
-          title='加用 Roflumilast 或 Azithromycin；並檢驗嗜酸性球確認生物製劑資格';
-          detail=`三合一下仍持續惡化。${eos===null?'請補驗穩定期血中嗜酸性球：若 ≥300 cells/µL 即符合生物製劑族群。':`Eos ${eos} cells/µL 介於 100–299，尚未達生物製劑門檻（≥300）；建議另次複驗確認。`}`;
-          trail.push(`三合一 + 惡化 + Eos ${eos===null?'未填':eos} → 尚未達生物製劑門檻`);
-          steps=['<b>Roflumilast 500 µg QD</b> — 限 FEV₁ &lt;50% 且慢性支氣管炎',
-                 '<b>Azithromycin</b> 250 mg QD 或 500 mg TIW，約 1 年 — 前吸菸者效果較佳',
+          title='加用 Roflumilast 或 Azithromycin'+(eos===null?'；並檢驗嗜酸性球確認生物製劑資格':'');
+          detail='三合一下仍持續惡化。'+(eos===null?'請補驗穩定期血中嗜酸性球：若 ≥300 cells/µL 即符合生物製劑族群。'
+                 : eLow ? `Eos ${eos} cells/µL（<100），但合併氣喘病史，<b>不撤除 ICS</b>。`
+                 : `Eos ${eos} cells/µL 介於 100–299，尚未達生物製劑門檻（≥300）；建議另次複驗確認。`);
+          trail.push(`三合一 + 惡化 + Eos ${eos===null?'未填':eos} → ${asth&&eLow?'合併氣喘保留 ICS':'尚未達生物製劑門檻'}`);
+          steps=[nonIcsSteps[0],nonIcsSteps[1],
                  '穩定期<b>複驗嗜酸性球至少 2 次</b>（個體內變異大，單次易誤判）',
                  '排除支氣管擴張症、慢性細菌定植、胃食道逆流、心衰竭'];
         }
@@ -1153,7 +1198,7 @@ function run(){
     }
 
     /* --- 呼吸困難為主 --- */
-    else if(wantDysp){
+    else{
       if(cur==='mono'){
         title='升階為 LABA + LAMA';
         detail='單方仍有持續呼吸困難時，雙支氣管擴張劑是第一步，效果優於增加單方劑量。';
@@ -1179,24 +1224,30 @@ function run(){
                '考慮加用 <b>Ensifentrine</b> 作為症狀加成',
                '評估長期氧氣與居家 NIV 適應症',
                '晚期可用低劑量嗎啡緩和呼吸困難；及早討論安寧與預立醫療照護'];
+        if(eLow && exac===0 && !asth) steps.push(`Eos ${eos} &lt;100 且無惡化 → ICS 效益低，可評估撤除（保留 LABA+LAMA）`);
       }
     }
   }
 
+  const blob=title+' '+detail+' '+steps.join(' ');
+  const hasRoflu=/[Rr]oflumilast/.test(blob), hasAzi=/[Aa]zithromycin/.test(blob);
+
   /* ---------- alerts ---------- */
+  if(wantExacCheck(main) && exac===0) alerts.push(['w','核對','選擇「持續急性惡化」但過去 12 個月惡化次數為 0——請確認惡化次數（中度＝需口服類固醇／抗生素；重度＝急診／住院），分組與建議依次數判定。']);
+  if(G==='E' && mod===1 && sev===0) alerts.push(['i','2026','本例因<b>單次中度惡化</b>即歸 Group E（GOLD 2026 新門檻）；在 2025 年以前的標準屬 A／B 組。']);
   if(main==='both') alerts.push(['i','雙軌','同時有呼吸困難與惡化時，上方建議<b>優先處理惡化路徑</b>（影響預後）；症狀面請同步進行：確認吸入技術、更換裝置／分子、加用 ensifentrine、轉介肺部復健、並排除心衰竭等其他喘因。']);
   if(asth) alerts.push(['g','氣喘','合併氣喘病史 → 治療方案<b>必須含 ICS</b>，且不可使用不含 ICS 的長效支氣管擴張劑單方。']);
-  if(eLow) alerts.push(['d','Eos','血中嗜酸性球 &lt;100 cells/µL → <b>不建議起始 ICS</b>；已在用 ICS 且無明確效益者應評估撤除（保留雙支氣管擴張劑）。']);
+  if(eLow && !asth) alerts.push(['d','Eos','血中嗜酸性球 &lt;100 cells/µL → <b>不建議起始 ICS</b>；已在用 ICS 且無明確效益者應評估撤除（保留雙支氣管擴張劑）。']);
   if(pna) alerts.push(['d','肺炎','反覆肺炎病史 → ICS 相關肺炎風險顯著上升，除非有強烈適應症（氣喘、Eos ≥300 且反覆惡化）否則<b>避免使用 ICS</b>。']);
   if(ntm) alerts.push(['d','NTM','分枝桿菌（TB／NTM）感染史 → <b>避免使用 ICS</b>；若已在使用應重新評估風險效益並考慮撤除。']);
   if(eHigh) alerts.push(['i','Eos','嗜酸性球 ≥300 cells/µL → 對 ICS 反應良好，並為 <b>dupilumab／mepolizumab</b> 之資格門檻。建議穩定期複驗確認。']);
   if(eos===null) alerts.push(['w','待補','<b>尚未填入血中嗜酸性球</b>——這是 ICS 與生物製劑決策的關鍵分岔點，請於穩定期抽驗（建議 ≥2 次）。']);
-  if(smk) alerts.push(['w','戒菸','目前仍吸菸 → <b>戒菸是唯一能改變疾病進程的介入</b>。請提供行為介入 + 藥物（varenicline／bupropion／NRT）。此外，azithromycin 的預防惡化效益在現行吸菸者明顯較差。']);
+  if(smk) alerts.push(['w','戒菸','目前仍吸菸 → <b>戒菸是唯一能改變疾病進程的介入</b>。請提供行為介入 + 藥物（varenicline／bupropion／NRT）。'+(hasAzi?'此外，azithromycin 的預防惡化效益在現行吸菸者明顯較差。':'')]);
   if(hypox) alerts.push(['d','氧療','符合長期氧氣治療（LTOT）評估條件 → 穩定期間隔 3 週測 2 次確認後開立，目標 SaO₂ ≥90%、每日 ≥15 小時，60–90 天後重新評估。']);
   if(hyperc) alerts.push(['i','NIV','慢性高碳酸血症（PaCO₂ &gt;53 mmHg）→ 考慮<b>長期居家非侵襲性通氣</b>，尤其近期曾因急性呼吸衰竭住院者（Evidence B）。同時評估 OSA。']);
-  if(qt && (cur==='dual'||cur==='triple')) alerts.push(['w','Azithro','QTc 延長／聽力障礙 → <b>使用 azithromycin 前須查 ECG 與聽力</b>，並評估其他延長 QT 之併用藥；風險高者改用其他策略。']);
-  if(fev!==null && fev<50 && cb) alerts.push(['i','Roflumilast','FEV₁ &lt;50% 且合併慢性支氣管炎 → <b>符合 roflumilast 適應族群</b>（500 µg PO QD）。注意腹瀉、體重下降、憂鬱。']);
-  if(fev!==null && fev>=50 && cb && (main==='exac'||main==='both')) alerts.push(['w','Roflumilast','雖有慢性支氣管炎，但 FEV₁ ≥50%，<b>不符合 roflumilast 的建議族群</b>。']);
+  if(qt && hasAzi) alerts.push(['w','Azithro','QTc 延長／聽力障礙 → <b>使用 azithromycin 前須查 ECG 與聽力</b>，並評估其他延長 QT 之併用藥；風險高者改用其他策略。']);
+  if(hasRoflu && fev!==null && fev<50 && cb) alerts.push(['i','Roflumilast','FEV₁ &lt;50% 且合併慢性支氣管炎 → <b>符合 roflumilast 適應族群</b>（500 µg PO QD）。注意腹瀉、體重下降、憂鬱。']);
+  if(hasRoflu && !(fev!==null && fev<50 && cb)) alerts.push(['w','Roflumilast','Roflumilast 限 FEV₁ &lt;50% 且合併慢性支氣管炎；本例'+roflReason(fev,cb)+'，<b>不符合或尚無法確認</b>，優先考慮 azithromycin。']);
   if(sev>=1) alerts.push(['d','住院','過去一年曾因惡化住院 → 死亡與再住院風險高。務必：出院 4 週內啟動<b>肺部復健</b>、開立書面行動計畫、1–4 週內回診。']);
   if(exac>=1) alerts.push(['w','心血管','中度或重度惡化後<b>長達一年內</b>心肌梗塞、中風與心衰竭風險顯著升高 → 應同步優化心血管風險評估與治療。']);
   if(fev!==null && fev<30) alerts.push(['i','進階','GOLD 4（FEV₁ &lt;30%）→ 評估長期氧氣、居家 NIV、肺容積縮減（EBV／LVRS）、肺移植轉介，並及早進行預立醫療照護諮商。']);
@@ -1204,13 +1255,12 @@ function run(){
   alerts.push(['g','疫苗','核心疾病修飾策略：流感（每年）、肺炎鏈球菌（PCV21／PCV20）、<b>RSV（≥50 歲，2026 由 60 歲下修）</b>、COVID-19、帶狀疱疹（≥50 歲）、Tdap。']);
 
   /* ---------- 健保附註（次要層級） ---------- */
-  const blob = (title + ' ' + detail + ' ' + steps.join(' '));
   const nhi=[];
   if(/三合一/.test(title)){
     nhi.push(['2','三款有 COPD 給付之三合一<b>皆要求「已先接受 ICS+LABA 或 LABA+LAMA 而控制不佳」</b>。Trelegy 限 Group D（92/55/22）；Trimbow 限 post-BD FEV₁&lt;50% + 反覆惡化（100/6/12.5）；Breztri 為唯一涵蓋 Group B 者。Enerzair 僅給付氣喘。皆每 28 天限 1 盒。']);
-    if(cur==='none') nhi.push(['3','本例為<b>治療初診</b>直接建議三合一。GOLD 2026 支持，但<b>健保條文不支持</b>——須先開雙擴張劑並記錄控制不佳，或自費。']);
-    if(fev!==null && fev<50) nhi.push(['2','FEV₁ '+fev+'% &lt;50% 且有惡化史 → <b>符合 Trimbow 的健保路徑</b>（不需套用字母分組）。病歷請留 post-BD 肺功能數值。']);
-    if(exac>=1 && !hiSx) nhi.push(['8','本例症狀未達高負荷；健保「Group D」隱含症狀高負荷 + 高惡化風險，申報分組與 GOLD 2026 ABE 不同。']);
+    if(cur==='none') nhi.push(['3','本例為<b>治療初診</b>直接建議三合一。GOLD 2026 支持，但<b>健保條文不支持</b>——須先開雙擴張劑並記錄控制不佳，或自費。'+(asth?'合併氣喘者可依氣喘給付規定先使用 ICS+LABA。':'')]);
+    if(fev!==null && fev<50 && exac>=1) nhi.push(['2','FEV₁ '+fev+'% &lt;50% 且有惡化史 → <b>符合 Trimbow 的健保路徑</b>（不需套用字母分組）。病歷請留 post-BD 肺功能數值。']);
+    if(!oldD) nhi.push(['8','本例<b>不符合健保條文之舊「Group D」</b>（需症狀高負荷 + ≥2 次中度或 ≥1 次住院）'+(hiSx?'；症狀高負荷者可考慮 Breztri 之 Group B 路徑':'')+'。申報分組與 GOLD 2026 ABE 不同。']);
   }
   if(/生物製劑/.test(title)){
     nhi.push(['7','<b>台灣健保不給付任何生物製劑用於 COPD</b>（僅嚴重氣喘，需事前審查，限胸腔或過敏免疫專科）。']);
@@ -1218,48 +1268,131 @@ function run(){
       ? '本例<b>合併氣喘病史</b> → 可循「嚴重氣喘」適應症送事前審查（需 EOS ≥300、過去 12 個月 ≥2 次全身性類固醇使用等）。'
       : '本例無氣喘病史 → <b>無健保申請路徑</b>，須自費，或重新評估是否符合嚴重氣喘診斷。']);
   }
-  if(/[Rr]oflumilast/.test(blob)){
-    const ok = (fev!==null && fev<50 && cb);
+  if(hasRoflu){
+    const ok=(fev!==null && fev<50 && cb);
     nhi.push(['4','Roflumilast 依核准適應症給付：<b>post-BD FEV₁ &lt;50% + 慢性支氣管炎 + 頻繁惡化病史</b>。'
-      + (ok ? '　<b>本例符合</b>（FEV₁ '+fev+'%、有慢性支氣管炎）。'
-            : '　<b>本例'+(fev===null?'未填 FEV₁':(fev>=50?'FEV₁ '+fev+'% ≥50%':''))+(cb?'':'、未勾選慢性支氣管炎')+'，請確認是否符合。</b>')]);
+      +(ok?'　<b>本例符合</b>（FEV₁ '+fev+'%、有慢性支氣管炎）。':'　<b>本例'+roflReason(fev,cb)+'，請確認是否符合。</b>')]);
   }
   if(/[Ee]nsifentrine/.test(blob)) nhi.push(['6','<b>Ensifentrine 台灣尚未上市</b>，目前無法取得。']);
-  if(/[Aa]zithromycin/.test(blob)) nhi.push(['5','Azithromycin 用於預防 COPD 惡化屬<b>仿單外使用</b>，健保無此適應症之給付條文。']);
-  if(/LABA \+ LAMA|雙支氣管擴張劑|單一長效/.test(title) && !/三合一|ICS/.test(title))
+  if(hasAzi) nhi.push(['5','Azithromycin 用於預防 COPD 惡化屬<b>仿單外使用</b>，健保無此適應症之給付條文。']);
+  if(/LABA \+ LAMA|雙支氣管擴張劑|單一長效/.test(title) && !/三合一|\+ ICS|含 ICS/.test(title))
     nhi.push(['1','LAMA／LABA 單方與 LABA+LAMA 複方<b>無專屬給付條文</b>；長效劑型<b>可單獨用於肺阻塞</b>。無 FEV₁ 門檻、無分組要求、無事前審查、無限用科別。']);
   nhi.push(['9','可考慮納入 <b>COPD 醫療給付改善方案</b>（主診斷 ICD-10 J41–J44、有肺功能紀錄、90 天內就醫 ≥2 次、書面同意）。']);
 
-  /* ---------- render ---------- */
+  return {state:'ok',G,gold,hiSx,oldD,exac,mod,sev,mmrc,cat,eos,fev,cur,main,
+          kind:cur==='none'?'initial':'followup',title,detail,steps,alerts,nhi,trail};
+}
+function wantExacCheck(main){return main==='exac'||main==='both';}
+function roflReason(fev,cb){
+  const r=[];
+  if(fev===null) r.push('未填 FEV₁'); else if(fev>=50) r.push('FEV₁ '+fev+'% ≥50%');
+  if(!cb) r.push('未勾選慢性支氣管炎');
+  return r.join('、');
+}
+const out={decide,validate};
+if(typeof module!=='undefined') module.exports=out;
+return out;
+})();
+/*ENGINE-END*/
+
+/* ---------- render ---------- */
+function readInputs(){
+  return {dx:S.dx, fev:num('q_fev'), mmrc:num('q_mmrc'), cat:num('q_cat'),
+    mod:num('q_mod'), sev:num('q_sev'), eos:num('q_eos'),
+    cur:document.getElementById('q_cur').value, main:S.main,
+    flags:{cb:chk('c_cb'),asth:chk('c_asth'),pna:chk('c_pna'),ntm:chk('c_ntm'),
+      smk:chk('c_smk'),hypox:chk('c_hypox'),hyperc:chk('c_hyperc'),qt:chk('c_qt')}};
+}
+const gName={A:'Group A｜症狀少、低惡化風險',B:'Group B｜症狀多、低惡化風險',E:'Group E｜高惡化風險'};
+
+function run(){
+  const out=document.getElementById('out');
+  const r=COPD.decide(readInputs());
+  saveInputs();
+
+  if(r.state==='invalid'){
+    out.innerHTML=`<div class="rhead"><div class="gletter gX">!</div><div><div class="gttl">輸入值超出範圍</div>
+      <div class="gsub">請修正後即時重新計算</div></div></div>
+      <div class="alerts">${r.errors.map(e=>`<div class="al d"><i>輸入</i><span>${e}</span></div>`).join('')}</div>`;
+    return;
+  }
+  if(r.state==='nodx'){
+    out.innerHTML=`<div class="rhead"><div class="gletter gX">!</div>
+      <div><div class="gttl">尚未符合 COPD 診斷</div>
+      <div class="gsub">post-BD FEV₁/FVC ≥ 0.70${r.prism?`，FEV₁ ${r.fev}% &lt;80% → 符合 <b>PRISm</b>`:''}</div></div></div>
+      <div class="rx"><div class="rx-t">建議</div>
+      <div class="rx-m">${r.prism?'PRISm：高風險族群，非 COPD':'重新檢視診斷'}</div>
+      <div class="rx-d">未達持續性氣流阻塞標準。請考慮：<b>Pre-COPD</b>（有症狀／構造或生理異常但比值正常）、<b>PRISm</b>（比值 ≥0.70 但 FEV₁ &lt;80%）、氣喘、支氣管擴張症、間質性肺病、心衰竭、貧血、去適應。</div></div>
+      <ul class="steps">
+      <li>Pre-COPD／PRISm 屬高風險族群：肺功能下降較快、症狀負荷高、死亡率上升</li>
+      <li>應積極<b>戒菸、接種疫苗、定期追蹤肺功能</b></li>
+      <li>目前無確立之維持性吸入藥物適應症，用藥須個別化</li>
+      <li>檢視 DLCO、肺容積、胸部 CT、心臟評估以釐清症狀來源</li></ul>`;
+    return;
+  }
+  if(r.state==='need'){
+    out.innerHTML=`<div class="empty">請至少填入 <b>mMRC</b> 或 <b>CAT</b> 分數，即可產生 ABE 分組與治療建議。</div>`;
+    return;
+  }
+
+  const sxTxt=[r.mmrc!==null?`mMRC ${r.mmrc}`:null, r.cat!==null?`CAT ${r.cat}`:null].filter(Boolean).join('、');
+  const eosTxt=r.eos===null?'嗜酸性球未填':`Eos ${r.eos}/µL`;
+  const goldTxt=r.gold?` · ${r.gold}（FEV₁ ${r.fev}%）`:'';
   out.innerHTML=`
   <div class="rhead">
-    <div class="gletter g${G}">${G}</div>
+    <div class="gletter g${r.G}">${r.G}</div>
     <div>
-      <div class="gttl">${gName[G]}</div>
-      <div class="gsub">${sxTxt}　·　惡化 ${exac} 次（中度 ${mod}／重度 ${sev}）　·　${eosTxt}${goldTxt}</div>
+      <div class="gttl">${gName[r.G]}</div>
+      <div class="gsub">${sxTxt}　·　惡化 ${r.exac} 次（中度 ${r.mod}／重度 ${r.sev}）　·　${eosTxt}${goldTxt}</div>
     </div>
   </div>
 
   <div class="rx">
-    <div class="rx-t">${cur==='none'?'建議初始治療 — Initial therapy':'建議調整方向 — Follow-up therapy'}</div>
-    <div class="rx-m">${title}</div>
-    <div class="rx-d">${detail}</div>
+    <div class="rx-t">${r.kind==='initial'?'建議初始治療 — Initial therapy':'建議調整方向 — Follow-up therapy'}</div>
+    <div class="rx-m">${r.title}</div>
+    <div class="rx-d">${r.detail}</div>
   </div>
 
-  <div style="font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--tx3);margin:16px 0 8px">具體執行步驟</div>
-  <ul class="steps">${steps.map(s=>`<li>${s}</li>`).join('')}</ul>
+  <div class="sh">具體執行步驟</div>
+  <ul class="steps">${r.steps.map(s=>`<li>${s}</li>`).join('')}</ul>
 
-  <div style="font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--tx3);margin:16px 0 8px">提醒與注意事項</div>
-  <div class="alerts">${alerts.map(a=>`<div class="al ${a[0]}"><i>${a[1]}</i><span>${a[2]}</span></div>`).join('')}</div>
+  <div class="sh">提醒與注意事項</div>
+  <div class="alerts">${r.alerts.map(a=>`<div class="al ${a[0]}"><i>${a[1]}</i><span>${a[2]}</span></div>`).join('')}</div>
 
   <div class="fnbox"><div class="h">健保附註　<span style="text-transform:none;font-weight:400">— 行政申報層面，不改變上方臨床建議</span></div>
-  ${nhi.map(a=>`<p><span class="n">健保 ${a[0]}</span>${a[1]}</p>`).join('')}
+  ${r.nhi.map(a=>`<p><span class="n">健保 ${a[0]}</span>${a[1]}</p>`).join('')}
   <p style="margin-top:8px">→ 完整條文見<b>附錄</b>分頁。</p></div>
 
-  <div class="trail">決策路徑：<br>${trail.map((t,i)=>`${i+1}. ${t}`).join('<br>')}</div>`;
+  <div class="trail">決策路徑：<br>${r.trail.map((t,i)=>`${i+1}. ${t}`).join('<br>')}</div>`;
 }
 
-document.getElementById('wrap_main').style.display='none';
+/* ---------- 保存輸入（僅存於本機瀏覽器） ---------- */
+const FIELDS=['q_fev','q_mmrc','q_cat','q_mod','q_sev','q_eos','q_cur'];
+const CHKS=['c_cb','c_asth','c_pna','c_ntm','c_smk','c_hypox','c_hyperc','c_qt'];
+function saveInputs(){
+  try{
+    const d={S:{dx:S.dx,main:S.main}};
+    FIELDS.forEach(id=>d[id]=document.getElementById(id).value);
+    CHKS.forEach(id=>d[id]=chk(id));
+    localStorage.setItem('copd-inputs',JSON.stringify(d));
+  }catch(e){}
+}
+function loadInputs(){
+  let d=null;
+  try{d=JSON.parse(localStorage.getItem('copd-inputs')||'null');}catch(e){}
+  if(!d) return;
+  FIELDS.forEach(id=>{if(typeof d[id]==='string') document.getElementById(id).value=d[id];});
+  CHKS.forEach(id=>document.getElementById(id).checked=!!d[id]);
+  if(d.S){
+    ['dx','main'].forEach(k=>{
+      if(!d.S[k]) return; S[k]=d.S[k];
+      document.querySelectorAll('#q_'+k+' .opt').forEach(b=>b.classList.toggle('on',b.dataset.v===S[k]));
+    });
+  }
+}
+
+loadInputs();
+syncMain();
 run();
 </script>
 </body>
