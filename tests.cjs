@@ -104,5 +104,68 @@ t('Trimbow route needs exacerbations', () =>
   assert.ok(!D({ cur: 'labaics', fev: 40, flags: { asth: true } }).nhi.some(n => /Trimbow 的健保路徑/.test(n[1]))));
 t('LABA+LAMA switch → NHI 1', () => assert.ok(D({ cur: 'labaics' }).nhi.some(n => n[0] === '1')));
 
+console.log('Teaching tabs');
+const block = (a, b) => { const x = html.match(new RegExp('/\\*' + a + '-START\\*/([\\s\\S]*?)/\\*' + a + '-END\\*/')); if (!x) throw new Error(a + ' block not found'); return new Function(x[1] + '\nreturn ' + b)(); };
+const CASES = block('CASES', 'CASES'), QUIZ = block('QUIZ', 'QUIZ'), MAP = block('MAP', 'MAP');
+t('6 cases with unique ids', () => { assert.equal(CASES.length, 6); assert.equal(new Set(CASES.map(c => c.id)).size, 6); });
+for (const c of CASES) t(`case ${c.id}: engine gives ${c.expect.G}, ${c.expect.gold}, /${c.expect.title}/`, () => {
+  const r = decide({ dx: '1', ...c.input });
+  assert.equal(r.state, 'ok'); assert.equal(r.G, c.expect.G); assert.equal(r.gold, c.expect.gold); assert.match(r.title, new RegExp(c.expect.title));
+});
+t('case flags map to real checkboxes', () => {
+  for (const c of CASES) for (const k of Object.keys(c.input.flags)) assert.ok(html.includes(`id="c_${k}"`), k);
+});
+t('case 4 roflumilast alert confirms eligibility', () => assert.ok(has(decide({ dx: '1', ...CASES[3].input }).alerts, /符合 roflumilast/)));
+t('case 4 QT alert shows', () => assert.ok(has(decide({ dx: '1', ...CASES[3].input }).alerts, /QTc/)));
+t('case 5 no asthma → no NHI route', () => assert.ok(decide({ dx: '1', ...CASES[4].input }).nhi.some(n => /無健保申請路徑/.test(n[1]))));
+t('case 6 LTOT and home NIV alerts show', () => {
+  const a = decide({ dx: '1', ...CASES[5].input }).alerts; assert.ok(has(a, /LTOT/)); assert.ok(has(a, /居家非侵襲性通氣/));
+});
+t('20 questions, 10 basic + 10 advanced', () => {
+  assert.equal(QUIZ.length, 20); assert.equal(QUIZ.filter(q => q.lv === 'basic').length, 10); assert.equal(QUIZ.filter(q => q.lv === 'adv').length, 10);
+});
+t('each question has 4 unique options, a source and an explanation', () => {
+  for (const q of QUIZ) { assert.equal(new Set(q.o).size, 4, q.q); assert.ok(q.a >= 0 && q.a < 4); assert.ok(q.e && q.s, q.q); }
+});
+t('answers spread A–D 5 each', () => {
+  for (let i = 0; i < 4; i++) assert.equal(QUIZ.filter(q => q.a === i).length, 5, 'ABCD'[i]);
+});
+t('correct option is the sole longest in at most 6 questions', () => {
+  const n = QUIZ.filter(q => q.o.every((x, i) => i === q.a || x.length < q.o[q.a].length)).length;
+  assert.ok(n <= 6, 'longest correct: ' + n);
+});
+const Q = s => QUIZ.find(q => q.q.includes(s));
+const ans = q => q.o[q.a];
+t('quiz ↔ engine: GOLD grade', () => assert.equal(ans(Q('FEV₁ 42%')), D({ fev: 42 }).gold));
+t('quiz ↔ engine: 1 moderate → E', () => { assert.match(ans(Q('Group E 門檻')), /≥1 次中度或重度/); assert.equal(D({ mmrc: 0, mod: 1 }).G, 'E'); });
+t('quiz ↔ engine: Group B start', () => { assert.equal(ans(Q('未用藥的 Group B')), 'LABA + LAMA'); assert.match(D().title, /^LABA \+ LAMA/); });
+t('quiz ↔ engine: Group E eos threshold', () => {
+  assert.match(ans(Q('未用藥的 Group E')), /≥300/);
+  assert.match(D({ mod: 1, eos: 300 }).title, /三合一/); assert.doesNotMatch(D({ mod: 1, eos: 299 }).title, /三合一/);
+});
+t('quiz ↔ engine: dual + eos 180 → triple', () => { assert.match(ans(Q('Eos 180')), /三合一/); assert.match(D({ cur: 'dual', main: 'exac', mod: 1, eos: 180 }).title, /三合一/); });
+t('quiz ↔ engine: dual + eos 60, no roflumilast criteria', () => {
+  assert.match(ans(Q('Eos 60、FEV₁ 62%')), /azithromycin/);
+  assert.ok(has(D({ cur: 'dual', main: 'exac', mod: 1, eos: 60, fev: 62 }).alerts, /不符合或尚無法確認/));
+});
+t('quiz ↔ engine: triple + eos 340, no CB → mepolizumab mentioned', () => {
+  assert.equal(ans(Q('沒有慢性支氣管炎。若要用生物製劑')), 'Mepolizumab');
+  assert.match(D({ cur: 'triple', main: 'exac', sev: 1, eos: 340, fev: 45 }).detail, /mepolizumab/);
+});
+t('quiz ↔ engine: both problems → exacerbation path', () => {
+  assert.equal(ans(Q('持續呼吸困難與惡化')), '惡化路徑');
+  assert.equal(D({ cur: 'dual', main: 'both', mod: 1, eos: 150 }).title, D({ cur: 'dual', main: 'exac', mod: 1, eos: 150 }).title);
+});
+t('quiz ↔ engine: initial triple → NHI 3', () => {
+  assert.match(ans(Q('想直接起始三合一')), /雙療法/); assert.ok(D({ mod: 1, eos: 350 }).nhi.some(n => n[0] === '3'));
+});
+t('mind map has both sides with sourced leaves', () => {
+  assert.ok(MAP.left.length >= 4 && MAP.right.length >= 4);
+  for (const [, lv] of [...MAP.left, ...MAP.right]) for (const [x, s] of lv) assert.ok(x && s);
+});
+t('tabs and sections exist for #cases #quiz #map', () => {
+  for (const id of ['cases', 'quiz', 'map']) { assert.ok(html.includes(`data-t="${id}"`)); assert.ok(html.includes(`<section id="${id}">`)); }
+});
+
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

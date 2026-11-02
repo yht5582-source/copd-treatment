@@ -184,6 +184,59 @@ input[type=number]:focus,select:focus{outline:none;border-color:var(--ac)}
 footer{margin-top:44px;padding-top:20px;border-top:1px solid var(--line);color:var(--tx3);font-size:12px}
 footer a{color:var(--ac);text-decoration:none}
 footer a:hover{text-decoration:underline}
+/* ---------- 示範病例、考題、心智圖 ---------- */
+[hidden]{display:none!important}
+.case-head{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;margin-bottom:8px}
+.case-head h3{margin:0}
+.case-no{font-family:ui-monospace,Menlo,monospace;font-size:13px;font-weight:650;color:var(--ac)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.chips span{background:var(--card2);border:1px solid var(--line);border-radius:6px;padding:2px 9px;font-size:12.5px;color:var(--tx)}
+.case-ask{font-weight:650;color:var(--tx);margin:10px 0}
+.case-actions{display:flex;flex-wrap:wrap;gap:8px}
+.act{background:var(--card2);border:1px solid var(--line2);color:var(--tx);padding:8px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-family:inherit}
+.act:hover{border-color:var(--ac);color:var(--ac)}
+.act.pri{background:var(--ac);border-color:var(--ac);color:#04211d;font-weight:650}
+.act.pri:hover{color:#04211d}
+[data-theme="light"] .act.pri,[data-theme="light"] .act.pri:hover{color:#fff}
+.act.on{border-color:var(--ac);color:var(--ac);font-weight:650}
+.ans{margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}
+.ans .rhead{margin-bottom:10px;padding-bottom:12px}
+.ans .gttl{line-height:1.45}
+.quiz-bar,.map-bar{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;margin-bottom:16px}
+.quiz-score{font-size:14px;color:var(--tx2)}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.lvb{color:var(--info)} .lva{color:var(--warn)}
+.stem{color:var(--tx);font-weight:550}
+.qopts{display:grid;gap:6px}
+.qopt{display:grid;grid-template-columns:22px minmax(0,1fr);gap:6px;text-align:left;background:var(--card2);border:1px solid var(--line);color:var(--tx);border-radius:8px;padding:9px 11px;cursor:pointer;font-size:14px;font-family:inherit}
+.qopt:hover:not(:disabled){border-color:var(--ac)}
+.qopt:disabled{cursor:default}
+.qopt b{color:var(--tx3);font-family:ui-monospace,Menlo,monospace}
+.qopt.right{border-color:var(--good);border-width:2px}
+.qopt.wrong{border-color:var(--danger);border-width:2px}
+.qopt:focus-visible,.act:focus-visible,.mm-btn:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.qsrc{margin-top:6px;font-size:12.5px;color:var(--tx3)}
+.mm{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 112px minmax(0,1fr);gap:0 56px;align-items:center}
+.mm svg.links{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.mm svg.links path{fill:none;stroke-width:1.6}
+.mm svg.links path.l{stroke:var(--ac)} .mm svg.links path.r{stroke:var(--info)}
+.mm-root{position:relative;z-index:1;text-align:center;font-size:20px;font-weight:750;background:var(--ac);color:#04211d;border-radius:12px;padding:16px 8px}
+[data-theme="light"] .mm-root{color:#fff}
+.mm-root small{display:block;color:inherit;font-size:11.5px;font-weight:600}
+.mm-side{position:relative;z-index:1;display:grid;gap:9px;min-width:0}
+.mm-title{font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--tx3)}
+.mm-node{background:var(--card);border:1.5px solid var(--ac);border-radius:10px;min-width:0}
+.mm-side.right .mm-node{border-color:var(--info)}
+.mm-btn{width:100%;display:flex;justify-content:space-between;align-items:center;gap:8px;background:none;border:0;color:var(--tx);font:inherit;font-size:14px;font-weight:650;text-align:left;cursor:pointer;padding:8px 12px}
+.mm-btn i{font-style:normal;color:var(--tx3);flex:none}
+.mm-node ul{margin:0;padding:0 12px 10px 28px;font-size:13.5px}
+.mm-node li{margin-bottom:4px}
+.mm-node li small{margin-left:6px;font-size:11.5px;white-space:nowrap}
+@media(max-width:820px){
+  .mm{grid-template-columns:minmax(0,1fr);gap:14px}
+  .mm svg.links{display:none}
+  .mm-root{order:-1}
+}
 @media print{nav,.tbtn,.reset{display:none}section{display:block!important}.panel.sticky{position:static}}
 </style>
 </head>
@@ -205,6 +258,9 @@ footer a:hover{text-decoration:underline}
     <button class="tab" role="tab" data-t="nonrx">非藥物治療</button>
     <button class="tab" role="tab" data-t="ae">急性惡化 AECOPD</button>
     <button class="tab" role="tab" data-t="new">2026 更新重點</button>
+    <button class="tab" role="tab" data-t="cases">示範病例</button>
+    <button class="tab" role="tab" data-t="quiz">考題</button>
+    <button class="tab" role="tab" data-t="map">心智圖</button>
     <button class="tab" role="tab" data-t="nhi">附錄：台灣藥品與健保註記</button>
   </nav>
 </div>
@@ -748,6 +804,36 @@ footer a:hover{text-decoration:underline}
 </section>
 
 
+<!-- ============ CASES ============ -->
+<section id="cases">
+<h2>示範病例</h2>
+<p>六位病人，涵蓋初始治療、Group E 新門檻、ICS 再評估、非 ICS 策略、生物製劑與急性呼吸衰竭。先想答案，再看判讀；判讀卡片的分組與建議由決策工具即時計算。</p>
+<div id="case-list"></div>
+<div class="note"><b>病例為教學虛構</b>依 GOLD 2026 Report 編寫，圖表編號以 Report v1.3 為準。健保內容引自本頁附錄，此處未重新核對條文原文。</div>
+</section>
+
+<!-- ============ QUIZ ============ -->
+<section id="quiz">
+<h2>考題</h2>
+<p>共 20 題：基礎 10 題、高階 10 題。作答後立即顯示解析與出處；重新整理頁面會清除作答。</p>
+<div class="quiz-bar">
+  <div class="seg" id="quiz-filter"><button class="act on" data-lv="all" aria-pressed="true">全部</button><button class="act" data-lv="basic" aria-pressed="false">基礎</button><button class="act" data-lv="adv" aria-pressed="false">高階</button></div>
+  <div class="quiz-score" id="quiz-score" aria-live="polite"></div>
+  <button class="act" id="quiz-reset">重新作答</button>
+</div>
+<div id="quiz-list"></div>
+</section>
+
+<!-- ============ MAP ============ -->
+<section id="map">
+<h2>心智圖</h2>
+<div class="map-bar">
+  <p style="margin:0">點分支展開；右側小字是 GOLD 2026 出處或本頁健保註記編號。</p>
+  <div class="seg"><button class="act" id="map-open">全部展開</button><button class="act" id="map-close">全部收合</button></div>
+</div>
+<div class="mm" id="mm"></div>
+</section>
+
 <!-- ============ APPENDIX ============ -->
 <section id="nhi">
 <div class="note"><b>本頁定位</b>本指引以 <b>GOLD 2026</b> 為主體。台灣健保給付規定屬<b>行政層面的申報限制</b>，不改變臨床建議本身，故集中於本附錄，並在各治療建議旁以 <span class="fn">健保 n</span> 標記對應註解。<b>臨床決策依 GOLD，申報依健保條文。</b></div>
@@ -903,7 +989,7 @@ footer a:hover{text-decoration:underline}
 
 <footer>
 <p><b>資料來源</b>　GOLD（Global Initiative for Chronic Obstructive Lung Disease）2026 Report 及 2026 Pocket Guide（2025 年 11 月發布）；GOLD 2026 Key Changes Summary；相關同儕審查回顧文獻。完整原文請至 <a href="https://goldcopd.org" target="_blank">goldcopd.org</a> 下載。</p>
-<p style="margin-top:8px">本頁為臨床決策輔助工具，非官方文件、亦非 GOLD 授權之翻譯版本。用藥前請核對台灣核准適應症與健保給付規範。建立日期：2026-08-15；v1.1 除錯更新：2026-10-25。</p>
+<p style="margin-top:8px">本頁為臨床決策輔助工具，非官方文件、亦非 GOLD 授權之翻譯版本。用藥前請核對台灣核准適應症與健保給付規範。建立日期：2026-08-15；v1.1 除錯更新：2026-10-25；v1.2 新增示範病例、考題、心智圖：2026-11-02。</p>
 </footer>
 
 </div>
@@ -924,7 +1010,9 @@ function showTab(id,push){
   document.querySelectorAll('section').forEach(x=>x.classList.remove('on'));
   b.classList.add('on'); b.setAttribute('aria-selected','true');
   document.getElementById(id).classList.add('on');
+  b.scrollIntoView({block:'nearest',inline:'nearest'});
   if(push) history.replaceState(null,'','#'+id);
+  if(id==='map'&&document.querySelector('#mm svg')) drawMap();
 }
 document.querySelectorAll('.tab').forEach(b=>{
   b.onclick=()=>{showTab(b.dataset.t,true);window.scrollTo({top:0,behavior:'smooth'});};
@@ -1390,6 +1478,224 @@ function loadInputs(){
     });
   }
 }
+
+/*CASES-START*/
+const CASES=[
+ {id:'c1',title:'新診斷、症狀多、沒有惡化',tag:'Group B',
+  stem:'62 歲男性，前吸菸者，40 包年。平地走得比同齡人慢，爬一層樓就要停下來，已一年。過去一年沒有需要類固醇或抗生素的惡化，也沒有氣喘病史，目前未用維持性藥物。',
+  data:['Post-BD FEV₁/FVC 0.62','FEV₁ 65%','mMRC 2、CAT 17','惡化 0 次','Eos 150'],
+  ask:'這位病人屬於哪一組？症狀這麼多，一開始需要加 ICS 嗎？',
+  input:{fev:65,mmrc:2,cat:17,mod:0,sev:0,eos:150,cur:'none',main:'dysp',flags:{}},
+  expect:{G:'B',gold:'GOLD 2',title:'^LABA \\+ LAMA'},label:'工具判定',
+  reason:['沒有中重度惡化，mMRC ≥2 且 CAT ≥10，歸 Group B。','Group B 起始建議 LABA+LAMA，單一吸入器有助順從性。','ICS 的角色是預防惡化，不是緩解症狀。病人沒有惡化、Eos 150，也沒有氣喘，目前沒有加 ICS 的理由。'],
+  next:['開立短效緩解藥，所有病人都需要','Group B 常合併共病，一併評估心血管疾病等其他喘因','完成疫苗；有運動性呼吸困難，轉介肺部復健','回診看症狀變化、吸入技術與順從性；每年至少一次肺功能'],
+  pit:'GOLD 2 只描述氣流阻塞程度，不決定起始藥物。選藥看的是症狀與惡化史。',
+  nhi:'LAMA、LABA 與 LABA+LAMA 複方沒有專屬給付條文，也沒有分組限制（健保 1）。',
+  cite:'GOLD 2026 Ch3 Group B、Fig 3.8、Fig 3.10；Fig 3.9 下方追蹤段落'},
+ {id:'c2',title:'只有一次中度惡化，Eos 偏高',tag:'2026 新門檻',
+  stem:'58 歲女性，每天仍吸半包菸。去年冬天感冒後喘加重，診所開了 5 天 prednisolone 與抗生素，沒有住院。平時症狀不多，沒有氣喘病史，未用維持性藥物。穩定期驗過兩次 Eos，分別是 340 與 360。',
+  data:['Post-BD FEV₁/FVC 0.66','FEV₁ 72%','mMRC 1、CAT 8','中度惡化 1 次','Eos 約 350','仍吸菸'],
+  ask:'症狀這麼少，還算高風險嗎？可以直接開三合一嗎？健保怎麼處理？',
+  input:{fev:72,mmrc:1,cat:8,mod:1,sev:0,eos:350,cur:'none',main:'dysp',flags:{smk:true}},
+  expect:{G:'E',gold:'GOLD 2',title:'三合一'},label:'工具判定',
+  reason:['GOLD 2026 把 Group E 放寬到過去一年 1 次中度惡化，症狀輕重不改變分組。','Group E 起始以 LABA+LAMA 為主；Eos ≥300 可考慮 LABA+LAMA+ICS。','GOLD 把這項標示為實務建議：沒有新診斷病人直接起始三合一的資料，證據多來自已治療病人。'],
+  next:['戒菸是這位病人最優先的介入','衛教及早辨識惡化，開立書面行動計畫','完成疫苗；安排回診確認治療反應與吸入技術','依健保路徑決定先用雙擴張劑或自費三合一，並與病人討論'],
+  pit:'臨床建議與健保申報要分開看：GOLD 可考慮直接起始三合一，健保不支持初診直接申報。',
+  nhi:'三款有 COPD 給付的三合一都要求先有雙療法控制不佳的紀錄（健保 2、3）。病人也不符合條文的舊 Group D（健保 8）。',
+  cite:'GOLD 2026 Ch2 Group E 修訂、Fig 3.8、Ch3 Group E；本頁健保 2、3、8'},
+ {id:'c3',title:'長年 LABA+ICS，反覆肺炎，Eos 很低',tag:'ICS 再評估',
+  stem:'71 歲男性，前吸菸者，沒有氣喘病史。多年前開始用 LABA+ICS 後一直沿用，兩年內肺炎兩次。過去一年有 1 次中度惡化，吸入技術與順從性已確認沒問題。穩定期 Eos 兩次為 60 與 65。',
+  data:['FEV₁ 58%','mMRC 2、CAT 14','中度惡化 1 次','Eos 約 60','LABA+ICS','反覆肺炎'],
+  ask:'已經有惡化了，該加 LAMA 成三合一，還是換藥？',
+  input:{fev:58,mmrc:2,cat:14,mod:1,sev:0,eos:60,cur:'labaics',main:'exac',flags:{pna:true}},
+  expect:{G:'E',gold:'GOLD 2',title:'改為 LABA \\+ LAMA'},label:'工具判定',
+  reason:['用 LABA+ICS 仍惡化時，GOLD 依 Eos 分流：≥100 升三合一，<100 改 LABA+LAMA。','反覆肺炎與 Eos <100 都列在不利使用 ICS 的因素。','沒有氣喘特徵，ICS 又缺乏指徵，應換成 LABA+LAMA，不是再加一種藥。'],
+  next:['換藥時保留兩種長效支氣管擴張劑，不要降成單方','調整後在密切監測下回診，留意症狀與惡化','反覆惡化者安排胸部 CT，評估支氣管擴張與肺氣腫','若仍惡化，再評估 azithromycin 或 roflumilast 條件'],
+  pit:'如果病人控制良好、沒有氣喘特徵，GOLD 也允許繼續 LABA+ICS。這位病人要換藥，是因為仍有惡化且 Eos <100。',
+  nhi:'LABA+LAMA 沒有分組限制（健保 1）。',
+  cite:'GOLD 2026 Ch3 Patients on LABA+ICS、Fig 3.10、Ch4 出院追蹤段'},
+ {id:'c4',title:'雙擴張劑仍惡化，Eos 低，QTc 偏長',tag:'非 ICS 策略',
+  stem:'66 歲男性，戒菸 5 年，規則使用 LABA+LAMA，技術與順從性良好。過去一年住院 1 次、門診惡化 1 次，連續多年每年咳痰超過 3 個月。Eos 兩次為 70 與 90。ECG QTc 490 ms，另有會延長 QT 的用藥。體重穩定，沒有憂鬱病史。',
+  data:['FEV₁ 42%','mMRC 2、CAT 21','中度 1＋重度 1','Eos 約 80','慢性支氣管炎','QTc 490 ms'],
+  ask:'要加 ICS 嗎？azithromycin 和 roflumilast 該選哪一個？',
+  input:{fev:42,mmrc:2,cat:21,mod:1,sev:1,eos:80,cur:'dual',main:'exac',flags:{cb:true,qt:true}},
+  expect:{G:'E',gold:'GOLD 3',title:'Roflumilast'},label:'工具判定',
+  reason:['Eos <100 時，加 ICS 的預期效益低，GOLD 改走非 ICS 路徑。','病人同時符合 roflumilast 的條件：FEV₁ <50%、慢性支氣管炎、曾因惡化住院。','前吸菸者原本也適合 azithromycin，但 QTc 延長是它的已知風險，這位病人優先選 roflumilast。'],
+  next:['Roflumilast 500 µg 每日一次，留意腹瀉、噁心、體重下降與失眠','追蹤體重與情緒','再次評估惡化誘因、共病與肺部復健','胸部 CT 評估支氣管擴張'],
+  pit:'Roflumilast 沒有直接支氣管擴張作用，加上去不是為了改善喘。',
+  nhi:'Roflumilast 依核准適應症給付，本例條件相符（健保 4）；azithromycin 預防惡化屬仿單外使用（健保 5）。',
+  cite:'GOLD 2026 Ch3 Exacerbations、Fig 3.9、Appendix 3 PDE4 inhibitors 與 Antibiotics'},
+ {id:'c5',title:'三合一仍惡化，Eos 高，有慢性支氣管炎',tag:'生物製劑',
+  stem:'64 歲女性，前吸菸者，沒有氣喘病史。用單一吸入器三合一超過一年，技術與順從性良好。過去一年住院 1 次、門診惡化 1 次。長期咳痰，已排除其他原因。Eos 兩次為 420 與 380。',
+  data:['FEV₁ 44%','mMRC 3、CAT 24','中度 1＋重度 1','Eos 約 400','三合一','慢性支氣管炎'],
+  ask:'符合生物製劑條件嗎？Dupilumab、mepolizumab 怎麼選？健保可以申請嗎？',
+  input:{fev:44,mmrc:3,cat:24,mod:1,sev:1,eos:400,cur:'triple',main:'exac',flags:{cb:true}},
+  expect:{G:'E',gold:'GOLD 3',title:'生物製劑'},label:'工具判定',
+  reason:['Fig 3.9 的條件是三合一下，過去一年 2 次中度或 1 次重度惡化，且 Eos ≥300，病人都符合。','有慢性支氣管炎時 dupilumab 符合試驗族群：BOREAS RR 0.70、NOTUS RR 0.66，兩者 FEV₁ 也改善。','Mepolizumab 不限是否有慢性支氣管炎：METREX RR 0.82、MATINEE RR 0.79；METREO RR 0.80 未達顯著，三者 FEV₁ 差異都不顯著。Benralizumab 未降低惡化率。'],
+  next:['與病人討論費用與預期效果，三項試驗族群不同，不能直接比較','同時檢視 roflumilast、azithromycin 是否適用','持續戒菸、疫苗、肺部復健與共病管理'],
+  pit:'只看 Eos ≥300 不夠。還要已用三合一，惡化次數也要達標。',
+  nhi:'健保不給付生物製劑用於 COPD。病人沒有氣喘病史，沒有申請路徑（健保 7）。',
+  cite:'GOLD 2026 Fig 3.9、Fig 3.11、Appendix 3 Biologic therapies；本頁健保 7'},
+ {id:'c6',title:'急性呼吸衰竭住院，到出院後的長期治療',tag:'AECOPD',
+  stem:'68 歲男性，前吸菸者，平日只用 LAMA。三天來痰量增加、變膿，喘加重。急診 RR 30、HR 112、室內空氣 SpO₂ 84%，使用呼吸輔助肌。ABG pH 7.29、PaCO₂ 68、PaO₂ 52 mmHg。胸片沒有肺炎，已評估心衰竭與肺栓塞。NIV 治療後改善，住院 7 天。出院後穩定期兩次（間隔 3 週）PaO₂ 53–54、PaCO₂ 56 mmHg，FEV₁ 38%，Eos 180。',
+  data:['pH 7.29、PaCO₂ 68','PaO₂ 52','膿痰','重度惡化 1 次','穩定期 PaO₂ 53、PaCO₂ 56','FEV₁ 38%、Eos 180'],
+  ask:'急診這一刻怎麼處理？穩定後，維持治療與呼吸支持要怎麼調整？',
+  input:{fev:38,mmrc:3,cat:null,mod:0,sev:1,eos:180,cur:'mono',main:'exac',flags:{hypox:true,hyperc:true}},
+  expect:{G:'E',gold:'GOLD 3',title:'升階為 LABA \\+ LAMA'},label:'工具判定（出院後維持治療）',
+  reason:['Rome 分級屬重度：PaO₂ ≤60，且 PaCO₂ >45 合併 pH <7.35。','呼吸性酸中毒符合 NIV 適應症，NIV 也是這類急性呼吸衰竭的首選通氣方式。','抗生素指徵成立：膿痰加上喘與痰量增加，而且需要呼吸器支持。','穩定期 PaO₂ ≤55 且 3 週內確認兩次，符合 LTOT；出院後 2–4 週 PaCO₂ 仍 >53，是居家 NIV 試驗的收案族群。','單方治療下惡化且 Eos <300，Fig 3.9 下一步是 LABA+LAMA。'],
+  next:['急性期：控制性給氧、SABA ± 短效抗膽鹼（用空氣驅動霧化）、prednisone 當量 40 mg × 5 天','抗生素依當地抗藥性選擇；需呼吸器者送痰培養；給予 VTE 預防','不用靜脈 methylxanthine，也不用呼吸興奮劑','能耐受至少 4 小時自主呼吸後可直接停 NIV','出院前啟動長效藥；1 個月內回診，3 個月再評估；出院 4 週內開始肺部復健','再惡化且 Eos ≥100，加 ICS 成三合一'],
+  pit:'LTOT 與長期 NIV 要在穩定期判斷。出院當下的血氣還不能決定長期氧氣需求。',
+  nhi:'可評估納入 COPD 醫療給付改善方案（健保 9）。',
+  cite:'GOLD 2026 Fig 4.2、4.5、4.6、4.8；Ch4 Hospital discharge；Ch3 Oxygen therapy and ventilatory support；Fig 3.9'}
+];
+/*CASES-END*/
+
+/*QUIZ-START*/
+const QUIZ=[
+ {lv:'basic',q:'確診 COPD 需要哪一項肺功能結果？',o:['擴張劑前 FEV₁/FVC <0.70','擴張劑後 FEV₁ <80% predicted','擴張劑後 FEV₁/FVC <0.70','擴張後 FEV₁ 上升 ≥12% 且 ≥200 mL'],a:2,e:'確診要用支氣管擴張劑後的比值。比值 ≥0.70 而 FEV₁ <80% 屬 PRISm，不是 COPD。',s:'GOLD 2026 Ch2'},
+ {lv:'basic',q:'Post-BD FEV₁ 42% predicted，屬於哪個氣流阻塞分級？',o:['GOLD 3','GOLD 2','GOLD 4','GOLD 1'],a:0,e:'GOLD 1 ≥80%、GOLD 2 50–79%、GOLD 3 30–49%、GOLD 4 <30%。分級不直接決定吸入藥物。',s:'GOLD 2026 Fig 2.10'},
+ {lv:'basic',q:'GOLD 2026 的 Group E 門檻是過去一年幾次惡化？',o:['≥2 次中度惡化','≥1 次住院才算','≥2 次中度或 ≥1 次住院','≥1 次中度或重度惡化'],a:3,e:'2026 版把一次中度惡化也納入 Group E，因為即使一次惡化，也會提高之後再發生的風險。',s:'GOLD 2026 Ch2、Fig 3.8'},
+ {lv:'basic',q:'未用藥的 Group B 病人（mMRC 2、沒有惡化），建議的起始治療是？',o:['SABA 按需使用','LABA + LAMA','LABA + ICS','LABA + LAMA + ICS'],a:1,e:'只要沒有可及性、費用或副作用問題，Group B 以 LABA+LAMA 起始。ICS 不是用來改善症狀。',s:'GOLD 2026 Ch3 Group B、Fig 3.8'},
+ {lv:'basic',q:'沒有氣喘的 COPD 病人有 ICS 指徵時，偏好哪種組合？',o:['LABA + ICS','ICS 單方','LABA + LAMA + ICS','LAMA + ICS'],a:2,e:'GOLD 不鼓勵 LABA+ICS。有 ICS 指徵時，三合一優於 LABA+ICS。',s:'GOLD 2026 Ch3 Group E'},
+ {lv:'basic',q:'未用藥的 Group E 病人，Eos 達多少可考慮起始就用三合一？',o:['≥50 cells/µL','≥100 cells/µL','≥150 cells/µL','≥300 cells/µL'],a:3,e:'起始治療看 ≥300。≥100 是已用 LABA+LAMA 仍惡化時，決定加 ICS 的參考值。',s:'GOLD 2026 Fig 3.8、Fig 3.9'},
+ {lv:'basic',q:'AECOPD 使用全身性類固醇，建議的劑量與療程是？',o:['Prednisone 當量 40 mg/天 × 5 天','Prednisone 當量 80 mg/天 × 5 天','Prednisone 當量 40 mg/天 × 14 天','Prednisone 當量 20 mg/天 × 3 天'],a:0,e:'建議 40 mg 持續 5 天。較長療程與肺炎、死亡風險增加相關，短期使用也有風險，應留給明顯惡化者。',s:'GOLD 2026 Ch4 Glucocorticoids'},
+ {lv:'basic',q:'AECOPD 的起始支氣管擴張劑，建議用哪一種？',o:['靜脈 aminophylline','吸入 SABA，可加短效抗膽鹼','口服 theophylline','長效 LABA+LAMA 加倍劑量'],a:1,e:'吸入 SABA ± 短效抗膽鹼是起始選擇。靜脈 methylxanthine 因副作用不建議。',s:'GOLD 2026 Ch4 Bronchodilators、Fig 4.6'},
+ {lv:'basic',q:'下列哪一項符合長期氧氣治療（LTOT）的條件？',o:['靜息 SpO₂ 89–93%，沒有其他異常','只有運動時 SpO₂ 降到 90%','PaO₂ ≤55 mmHg，3 週內確認 2 次','PaO₂ 65 mmHg 合併輕度水腫'],a:2,e:'穩定期 PaO₂ ≤55 mmHg 或 SaO₂ ≤88%，3 週內確認兩次。PaO₂ 55–60 需合併肺高壓、右心衰竭徵象或 Hct >55%。中度去飽和用 LTOT 沒有存活或住院上的益處。',s:'GOLD 2026 Ch3 Oxygen therapy'},
+ {lv:'basic',q:'門診 AECOPD：喘加重、痰量增加，但痰未變膿、無發燒，不需呼吸器，過去也沒有痰培養陽性。抗生素如何處理？',o:['這次不符合抗生素指徵','痰量增加就應該給抗生素','依 procalcitonin 數值決定','一律給 quinolone 5 天'],a:0,e:'需有膿痰合併另一項症狀、過去惡化痰培養陽性，或需要呼吸器。GOLD 目前不建議用 procalcitonin 流程決定抗生素。',s:'GOLD 2026 Ch4 Antibiotics、Fig 4.6'},
+
+ {lv:'adv',q:'已用 LABA+LAMA，過去一年 1 次中度惡化，Eos 180，沒有肺炎或分枝桿菌病史，吸入技術沒問題。下一步？',o:['維持現行藥物，只加強衛教','加 roflumilast','加 dupilumab','加 ICS 成三合一'],a:3,e:'LABA+LAMA 下惡化且 Eos ≥100，建議升階三合一；Eos 越高，效益越可能明顯。Dupilumab 要先用過三合一。',s:'GOLD 2026 Fig 3.9、Fig 3.10'},
+ {lv:'adv',q:'前吸菸者用 LABA+LAMA 仍有惡化，Eos 60、FEV₁ 62%，沒有慢性支氣管炎，QTc 正常。較合適的選項？',o:['加 ICS 成三合一','加 azithromycin','加 roflumilast','加 mepolizumab'],a:1,e:'Eos <100 不優先加 ICS；FEV₁ ≥50% 又沒有慢性支氣管炎，不符合 roflumilast。不吸菸者可考慮 azithromycin，用前查 QTc、聽力並考量抗藥性。',s:'GOLD 2026 Ch3 Exacerbations、Fig 3.9'},
+ {lv:'adv',q:'仍在吸菸，用 LABA+LAMA 卻因惡化住院過 1 次。FEV₁ 40%，有慢性支氣管炎，Eos 70。除了積極戒菸，加哪種藥？',o:['加 ICS 成三合一','加 azithromycin','加 roflumilast','加 dupilumab'],a:2,e:'病人符合 roflumilast 的三項條件。Azithromycin 的建議對象是目前不吸菸者，事後分析顯示現行吸菸者效益較少。',s:'GOLD 2026 Ch3 Exacerbations、Appendix 3'},
+ {lv:'adv',q:'三合一治療下，過去一年住院 1 次，Eos 340，FEV₁ 45%，沒有慢性支氣管炎。若要用生物製劑，選哪一個？',o:['Mepolizumab','Dupilumab','Benralizumab','Omalizumab'],a:0,e:'Dupilumab 試驗族群有慢性支氣管炎，Fig 3.9 也這樣標示。Mepolizumab 不限，benralizumab 未能降低惡化率。',s:'GOLD 2026 Fig 3.9、Fig 3.11、Appendix 3'},
+ {lv:'adv',q:'關於 COPD 生物製劑試驗，哪一項正確？',o:['METREX、MATINEE 都顯著改善 FEV₁','Benralizumab 顯著降低惡化率','METREO 的惡化下降達統計顯著','BOREAS、NOTUS 降低惡化並改善 FEV₁'],a:3,e:'BOREAS RR 0.70、NOTUS RR 0.66，FEV₁ 分別改善 83 與 62 mL。METREO RR 0.80 未達顯著，三項 mepolizumab 試驗 FEV₁ 都未達顯著。',s:'GOLD 2026 Fig 3.11'},
+ {lv:'adv',q:'用三合一的病人，哪一種情況最適合考慮撤除 ICS？',o:['Eos 350，沒有副作用，只是想減藥','反覆發生嚴重肺炎','過去一年沒有再惡化','FEV₁ 低於 50%'],a:1,e:'撤除的理由是當初不該用、沒有反應、明顯副作用或嚴重／反覆肺炎。Eos ≥300 時撤除，較可能出現惡化。',s:'GOLD 2026 Ch3 Exacerbations、Fig 3.9 註'},
+ {lv:'adv',q:'用藥後同時有持續呼吸困難與惡化，要走哪一條追蹤路徑？',o:['呼吸困難路徑','輪流使用兩條路徑','惡化路徑','回到初始治療表重新分組'],a:2,e:'兩者都需處理時走惡化路徑。追蹤圖適用於所有已用藥者，不論當初屬於哪一組，也不必回頭重新用 ABE 選藥。',s:'GOLD 2026 Ch3 Follow-up management'},
+ {lv:'adv',q:'AECOPD 住院：氧氣下 pH 7.30、PaCO₂ 58 mmHg，RR 28，意識清楚，血流動力學穩定。呼吸支持首選？',o:['立即氣管內插管','使用呼吸興奮劑','提高給氧濃度','非侵襲性通氣（NIV）'],a:3,e:'PaCO₂ ≥45 mmHg 且 pH ≤7.35 符合 NIV 適應症。NIV 可降低插管率與死亡率；呼吸興奮劑不建議使用。',s:'GOLD 2026 Ch4 NIV、Fig 4.8'},
+ {lv:'adv',q:'疑似惡化：VAS 6、RR 26、HR 100、SaO₂ 94%（平日 95%）、CRP 30。ABG pH 7.38、PaCO₂ 44、PaO₂ 75。Rome 分級？',o:['中度','輕度','重度','資料不足，無法分級'],a:0,e:'五項中有 VAS、RR、HR、CRP 四項達標，至少三項即為中度。沒有 PaO₂ ≤60，也沒有高碳酸合併酸中毒，所以不是重度。',s:'GOLD 2026 Fig 4.2'},
+ {lv:'adv',q:'初診 Group E、Eos 350，臨床上想直接起始三合一。依本頁整理的台灣健保條文，下列何者正確？',o:['Trelegy 可直接申報','須先有雙療法控制不佳紀錄','Enerzair 可申報 COPD','Breztri 不需任何前置治療'],a:1,e:'三款有 COPD 給付的三合一都要求先有雙療法控制不佳的紀錄；Enerzair 只給付氣喘。條文仍可能異動，開立前請查最新公告。',s:'本頁健保 2、3'}
+];
+/*QUIZ-END*/
+
+/*MAP-START*/
+const MAP={
+ left:[
+  ['診斷',[['有症狀或暴露史，加上 post-BD FEV₁/FVC <0.70','Ch2'],['比值 ≥0.70 且 FEV₁ <80%：PRISm，不是 COPD','本頁'],['可逆性結果不再用來決定治療','Ch2']]],
+  ['氣流阻塞分級',[['GOLD 1 ≥80%｜GOLD 2 50–79%','Fig 2.10'],['GOLD 3 30–49%｜GOLD 4 <30%','Fig 2.10'],['分級不直接決定吸入藥物','Ch2']]],
+  ['ABE 分組',[['E：≥1 次中度或重度惡化','Fig 3.8'],['A：0 次惡化，mMRC 0–1、CAT <10','Fig 3.8'],['B：0 次惡化，mMRC ≥2、CAT ≥10','Fig 3.8'],['mMRC 與 CAT 不一致時，本工具任一達標即歸症狀多','本頁']]],
+  ['嗜酸性球怎麼用',[['視為連續變化值，切點只是近似，且會波動','Fig 3.10'],['≥300：起始可考慮三合一；也是生物製劑條件','Fig 3.8–3.9'],['≥100：雙擴張劑下惡化時加 ICS','Fig 3.9'],['<100：不利使用 ICS','Fig 3.10']]],
+  ['惡化：先確認與分級',[['排除肺炎、心衰竭、肺栓塞等','Ch4'],['中度：VAS、RR、HR、SaO₂、CRP 五項中 ≥3','Fig 4.2'],['重度：另有 PaO₂ ≤60 及／或 PaCO₂ >45 且 pH <7.35','Fig 4.2'],['GOLD 不建議常規用預測分數','Ch4']]]
+ ],
+ right:[
+  ['初始治療',[['A：一種支氣管擴張劑，有效才續用','Fig 3.8'],['B：LABA+LAMA','Fig 3.8'],['E：LABA+LAMA；Eos ≥300 可考慮三合一','Fig 3.8'],['合併氣喘：一定要有 ICS','Ch3'],['所有人都開短效緩解藥','Ch3']]],
+  ['追蹤：持續喘',[['先查吸入技術、順從性與共病','Fig 3.7'],['單方 → LABA+LAMA','Fig 3.9'],['仍喘：換裝置或分子、加強復健','Fig 3.9'],['可考慮 ensifentrine（僅美國可取得）','Fig 3.9'],['同時有喘與惡化：走惡化路徑','Ch3']]],
+  ['追蹤：持續惡化',[['單方 → LABA+LAMA；Eos ≥300 → 三合一','Fig 3.9'],['雙擴張劑、Eos ≥100 → 三合一','Fig 3.9'],['LABA+ICS：Eos ≥100 → 三合一，<100 → LABA+LAMA','Ch3'],['Azithromycin：優先用於前吸菸者','Fig 3.9'],['Roflumilast：FEV₁ <50%、慢性支氣管炎、曾重度惡化','Ch3']]],
+  ['生物製劑',[['三合一下 2 次中度或 1 次重度，且 Eos ≥300','Fig 3.9'],['Dupilumab：有慢性支氣管炎','Fig 3.11'],['Mepolizumab：不限慢性支氣管炎','Fig 3.11'],['Benralizumab：未降低惡化率','App 3']]],
+  ['ICS 撤除',[['當初不該用、沒有反應、明顯副作用或反覆肺炎','Ch3'],['Eos ≥300：撤除後較易惡化','Fig 3.9'],['須密切追蹤','Ch3']]],
+  ['惡化處置',[['SABA ± 短效抗膽鹼；不用靜脈 methylxanthine','Fig 4.6'],['Prednisone 當量 40 mg × 5 天','Ch4'],['抗生素：膿痰加一項、曾培養陽性或需呼吸器','Ch4'],['酸中毒或呼吸肌疲勞：NIV','Fig 4.8'],['1 個月內回診，3 個月再評估；4 週內開始復健','Ch4']]],
+  ['長期非藥物',[['戒菸、疫苗、肺部復健','Ch3'],['LTOT：PaO₂ ≤55 或 SaO₂ ≤88%，3 週內確認 2 次','Ch3'],['居家 NIV：出院 2–4 週後 PaCO₂ 仍 >53','Ch3']]],
+  ['台灣健保',[['三合一：須有雙療法控制不佳紀錄','健保 2–3'],['條文用舊 Group D，與 ABE 不同','健保 8'],['生物製劑不給付 COPD','健保 7'],['Azithromycin 預防惡化屬仿單外','健保 5']]]
+ ]
+};
+/*MAP-END*/
+
+/* ---------- 示範病例、考題、心智圖 ---------- */
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const FLAG_ID={cb:'c_cb',asth:'c_asth',pna:'c_pna',ntm:'c_ntm',smk:'c_smk',hypox:'c_hypox',hyperc:'c_hyperc',qt:'c_qt'};
+function loadCase(c){
+  rst();
+  const i=c.input,set=(id,v)=>{document.getElementById(id).value=v===null||v===undefined?'':v;};
+  set('q_fev',i.fev);set('q_mmrc',i.mmrc);set('q_cat',i.cat);set('q_mod',i.mod);set('q_sev',i.sev);set('q_eos',i.eos);set('q_cur',i.cur);
+  Object.keys(i.flags).forEach(k=>{document.getElementById(FLAG_ID[k]).checked=!!i.flags[k];});
+  S.main=i.main;
+  document.querySelectorAll('#q_main .opt').forEach(b=>b.classList.toggle('on',b.dataset.v===S.main));
+  syncMain();run();
+  showTab('tool',true);window.scrollTo(0,0);
+}
+document.getElementById('case-list').innerHTML=CASES.map((c,n)=>{
+  const r=COPD.decide({dx:'1',...c.input});
+  return `<article class="card" data-case="${c.id}">
+  <div class="case-head"><span class="case-no">病例 ${n+1}</span><h3>${esc(c.title)}</h3><span class="pill pEv">${esc(c.tag)}</span></div>
+  <p>${esc(c.stem)}</p>
+  <div class="chips">${c.data.map(d=>`<span>${esc(d)}</span>`).join('')}</div>
+  <p class="case-ask">${esc(c.ask)}</p>
+  <div class="case-actions"><button class="act pri" data-act="show" aria-expanded="false">看判讀</button><button class="act" data-act="load">帶入決策工具</button></div>
+  <div class="ans" hidden>
+    <div class="rhead"><div class="gletter g${r.G}">${r.G}</div><div><div class="gsub">${esc(c.label)} · ${r.gold}</div><div class="gttl">${r.title}</div></div></div>
+    <div class="sh">判讀</div><ul class="steps">${c.reason.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>
+    <div class="sh">下一步</div><ul class="steps">${c.next.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>
+    <div class="note w"><b>易錯點</b>${esc(c.pit)}</div>
+    <div class="fnbox"><p><span class="n">健保</span>${esc(c.nhi)}</p><p>出處：${esc(c.cite)}</p></div>
+  </div>
+</article>`;}).join('');
+document.getElementById('case-list').addEventListener('click',e=>{
+  const b=e.target.closest('button[data-act]');if(!b)return;
+  const card=b.closest('[data-case]'),c=CASES.find(x=>x.id===card.dataset.case);
+  if(b.dataset.act==='show'){
+    const a=card.querySelector('.ans');a.hidden=!a.hidden;
+    b.textContent=a.hidden?'看判讀':'收合判讀';b.setAttribute('aria-expanded',String(!a.hidden));
+  }else loadCase(c);
+});
+
+let quizAns={},quizLv='all';
+function renderQuiz(){
+  const L='ABCD';
+  document.getElementById('quiz-list').innerHTML=QUIZ.map((x,i)=>{
+    if(quizLv!=='all'&&x.lv!==quizLv)return '';
+    const got=quizAns[i],done=got!==undefined;
+    return `<article class="card qitem"><div class="case-head"><span class="case-no">第 ${i+1} 題</span><span class="pill ${x.lv==='adv'?'lva':'lvb'}">${x.lv==='adv'?'高階':'基礎'}</span></div>
+      <p class="stem">${esc(x.q)}</p>
+      <div class="qopts">${x.o.map((t,j)=>`<button class="qopt ${done&&j===x.a?'right':''} ${done&&j===got&&j!==x.a?'wrong':''}" data-q="${i}" data-o="${j}" ${done?'disabled':''}><b>${L[j]}</b><span>${esc(t)}</span></button>`).join('')}</div>
+      ${done?`<div class="note ${got===x.a?'g':'d'}"><b>${got===x.a?'答對':'答錯，正確答案 '+L[x.a]}</b>${esc(x.e)}<div class="qsrc">出處：${esc(x.s)}</div></div>`:''}
+    </article>`;
+  }).join('');
+  const sc=lv=>{
+    const q=QUIZ.map((x,i)=>[x,i]).filter(([x])=>lv==='all'||x.lv===lv),d=q.filter(([,i])=>quizAns[i]!==undefined);
+    return [d.filter(([x,i])=>quizAns[i]===x.a).length,d.length,q.length];
+  };
+  const [r,d,n]=sc('all'),[br,bd]=sc('basic'),[ar,ad]=sc('adv');
+  document.getElementById('quiz-score').innerHTML=`已答 <b>${d}/${n}</b>，答對 <b>${r}</b>｜基礎 <b>${br}/${bd}</b>｜高階 <b>${ar}/${ad}</b>`;
+}
+document.getElementById('quiz-list').addEventListener('click',e=>{
+  const b=e.target.closest('.qopt');if(!b||b.disabled)return;
+  quizAns[+b.dataset.q]=+b.dataset.o;
+  const y=window.scrollY;renderQuiz();window.scrollTo(0,y);
+});
+document.querySelectorAll('#quiz-filter button').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('#quiz-filter button').forEach(x=>{x.classList.toggle('on',x===b);x.setAttribute('aria-pressed',String(x===b));});
+    quizLv=b.dataset.lv;renderQuiz();
+  };
+});
+document.getElementById('quiz-reset').onclick=()=>{quizAns={};renderQuiz();};
+renderQuiz();
+
+function mapSide(list,side,title){
+  return `<div class="mm-side ${side}"><div class="mm-title">${title}</div>${list.map(([t,lv])=>`<div class="mm-node" data-side="${side}"><button class="mm-btn" aria-expanded="false"><span>${esc(t)}</span><i>＋</i></button><ul hidden>${lv.map(([x,s])=>`<li>${esc(x)}<small>${esc(s)}</small></li>`).join('')}</ul></div>`).join('')}</div>`;
+}
+document.getElementById('mm').innerHTML=`<svg class="links" aria-hidden="true"></svg>${mapSide(MAP.left,'left','診斷與評估')}<div class="mm-root">COPD<small>GOLD 2026</small></div>${mapSide(MAP.right,'right','治療')}`;
+function drawMap(){
+  const mm=document.getElementById('mm'),svg=mm.querySelector('svg.links');
+  if(!svg||!mm.offsetParent||getComputedStyle(svg).display==='none')return;
+  const o=mm.getBoundingClientRect(),rt=mm.querySelector('.mm-root').getBoundingClientRect(),cy=rt.top+rt.height/2-o.top;
+  svg.setAttribute('viewBox',`0 0 ${o.width} ${o.height}`);
+  svg.innerHTML=[...mm.querySelectorAll('.mm-node')].map(n=>{
+    const b=n.querySelector('.mm-btn').getBoundingClientRect(),y=b.top+b.height/2-o.top,left=n.dataset.side==='left';
+    const x1=left?rt.left-o.left:rt.right-o.left,x2=left?b.right-o.left:b.left-o.left,mx=(x1+x2)/2;
+    return `<path class="${left?'l':'r'}" d="M${x1} ${cy} C${mx} ${cy} ${mx} ${y} ${x2} ${y}"/>`;
+  }).join('');
+}
+function setNode(n,open){
+  n.querySelector('ul').hidden=!open;
+  const b=n.querySelector('.mm-btn');b.setAttribute('aria-expanded',String(open));b.querySelector('i').textContent=open?'－':'＋';
+}
+document.getElementById('mm').addEventListener('click',e=>{
+  const b=e.target.closest('.mm-btn');if(!b)return;
+  const n=b.closest('.mm-node');setNode(n,n.querySelector('ul').hidden);drawMap();
+});
+document.getElementById('map-open').onclick=()=>{document.querySelectorAll('.mm-node').forEach(n=>setNode(n,true));drawMap();};
+document.getElementById('map-close').onclick=()=>{document.querySelectorAll('.mm-node').forEach(n=>setNode(n,false));drawMap();};
+window.addEventListener('resize',drawMap);
+drawMap();
 
 loadInputs();
 syncMain();
