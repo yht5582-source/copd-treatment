@@ -70,7 +70,10 @@ t('dual + asthma → add ICS even for dyspnoea', () => assert.match(D({ cur: 'du
 t('triple + exac + eos 350 → biologics', () => assert.match(D({ cur: 'triple', main: 'exac', mod: 2, eos: 350 }).title, /生物製劑/));
 t('biologic without asthma → no NHI route', () =>
   assert.ok(D({ cur: 'triple', main: 'exac', mod: 2, eos: 350 }).nhi.some(n => /無健保申請路徑/.test(n[1]))));
-t('triple + exac + eos 50 → withdraw ICS', () => assert.match(D({ cur: 'triple', main: 'exac', mod: 1, eos: 50 }).title, /撤除 ICS/));
+t('triple + exac + eos 50 → non-ICS add-on, low eos alone does not withdraw', () => {
+  const r = D({ cur: 'triple', main: 'exac', mod: 1, eos: 50 });
+  assert.match(r.title, /Roflumilast/); assert.doesNotMatch(r.title, /撤除/); assert.match(r.detail, /不是撤除 ICS 的理由/);
+});
 t('triple + exac + eos 50 + asthma → keep ICS', () => {
   const r = D({ cur: 'triple', main: 'exac', mod: 1, eos: 50, flags: { asth: true } });
   assert.doesNotMatch(r.title, /撤除/); assert.match(r.detail, /不撤除 ICS/);
@@ -78,7 +81,7 @@ t('triple + exac + eos 50 + asthma → keep ICS', () => {
 t('triple + exac + eos 200 → roflumilast/azithro', () => assert.match(D({ cur: 'triple', main: 'exac', mod: 1, eos: 200 }).title, /Roflumilast/));
 
 console.log('LABA + ICS');
-t('LABA+ICS, no exac, eos 150 → switch to LABA+LAMA', () => assert.match(D({ cur: 'labaics' }).title, /改為 LABA \+ LAMA/));
+t('LABA+ICS, no exac, no prior response → switch to LABA+LAMA', () => assert.match(D({ cur: 'labaics', icsResp: 'no', eos: 150 }).title, /改為 LABA \+ LAMA/));
 t('LABA+ICS, 1 moderate + eos 150 → add LAMA', () => assert.match(D({ cur: 'labaics', main: 'exac', mod: 1, eos: 150 }).title, /加上 LAMA/));
 t('LABA+ICS, add-LAMA steps do not talk about withdrawing ICS', () =>
   assert.ok(!has(D({ cur: 'labaics', main: 'exac', mod: 1, eos: 150 }).steps, /撤除/)));
@@ -102,7 +105,72 @@ t('triple with 2 moderate + high symptoms → no NHI 8', () =>
   assert.ok(!D({ cur: 'dual', main: 'exac', mod: 2, eos: 150 }).nhi.some(n => n[0] === '8')));
 t('Trimbow route needs exacerbations', () =>
   assert.ok(!D({ cur: 'labaics', fev: 40, flags: { asth: true } }).nhi.some(n => /Trimbow 的健保路徑/.test(n[1]))));
-t('LABA+LAMA switch → NHI 1', () => assert.ok(D({ cur: 'labaics' }).nhi.some(n => n[0] === '1')));
+t('LABA+LAMA switch → NHI 1', () => assert.ok(D({ cur: 'labaics', icsResp: 'no' }).nhi.some(n => n[0] === '1')));
+
+console.log('GOLD 2026 corrections');
+t('triple + 1 moderate + eos 350 → no biologic (Fig 3.9)', () => {
+  const r = D({ cur: 'triple', main: 'exac', mod: 1, eos: 350 });
+  assert.doesNotMatch(r.title, /生物製劑/); assert.match(r.title, /Roflumilast/); assert.match(r.detail, /未達生物製劑門檻/);
+  assert.ok(!r.nhi.some(n => n[0] === '7'));
+});
+t('triple + 1 moderate + eos 350 keeps ICS (not withdrawal)', () => assert.doesNotMatch(D({ cur: 'triple', main: 'exac', mod: 1, eos: 350 }).title, /撤除/));
+t('triple + 2 moderate + eos 300 → biologic', () => assert.match(D({ cur: 'triple', main: 'exac', mod: 2, eos: 300 }).title, /生物製劑/));
+t('triple + 1 severe + eos 300 → biologic', () => assert.match(D({ cur: 'triple', main: 'exac', sev: 1, eos: 300 }).title, /生物製劑/));
+t('triple + 2 moderate + eos 299 → no biologic', () => assert.doesNotMatch(D({ cur: 'triple', main: 'exac', mod: 2, eos: 299 }).title, /生物製劑/));
+const roflCase = o => D({ cur: 'dual', main: 'exac', eos: 50, fev: 40, flags: { cb: true }, ...o }).alerts;
+t('roflumilast eligible only with hospitalisation', () => {
+  assert.ok(has(roflCase({ sev: 1 }), /符合 roflumilast 適應族群/));
+  assert.ok(!has(roflCase({ mod: 2 }), /符合 roflumilast 適應族群/));
+  assert.ok(has(roflCase({ mod: 2 }), /曾因惡化住院/));
+});
+t('every engine roflumilast step states the hospitalisation criterion', () =>
+  assert.ok(has(D({ cur: 'dual', main: 'exac', mod: 1, eos: 50 }).steps, /Roflumilast 500.*曾因惡化住院/)));
+t('reference text: corrected wording present, old wording gone', () => {
+  for (const x of ['PaO₂ 70–80 mmHg', '不建議用 procalcitonin 流程', '門診 ≤5 天', '&lt;10 ng/mL', '<td><b>&lt;100</b></td><td>→ 改為 <b>LABA + LAMA</b></td>']) assert.ok(html.includes(x), x);
+  for (const x of ['三項具備', '&lt;20 ng/mL', '4–6 週', '<td>任何</td><td>→ 加 LAMA 成三合一</td>']) assert.ok(!html.includes(x), x);
+});
+
+console.log('Audit fixes');
+const LOW = { mmrc: 0, cat: 5 };
+for (const cur of ['mono', 'dual', 'labaics', 'triple']) t(`${cur}, controlled, no exacerbation → maintain`, () => {
+  const r = D({ cur, main: 'ok', ...LOW }); assert.match(r.title, /維持現行治療/);
+  assert.doesNotMatch(r.steps.join(' '), /升階/);
+});
+t('controlled but exacerbation on record → check timing, no escalation', () => assert.match(D({ cur: 'dual', main: 'ok', mod: 1, ...LOW }).title, /先確認惡化/));
+t('asthma on mono/dual still needs ICS even if "controlled"', () => assert.match(D({ cur: 'dual', main: 'ok', ...LOW, flags: { asth: true } }).title, /ICS/));
+t('LABA+ICS, prior response, low symptoms → continue (Fig 3.12)', () => assert.match(D({ cur: 'labaics', icsResp: 'yes', ...LOW, eos: 150 }).title, /繼續 LABA \+ ICS/));
+t('LABA+ICS, prior response, high symptoms → triple (Fig 3.12)', () => assert.match(D({ cur: 'labaics', icsResp: 'yes', mmrc: 3, eos: 150 }).title, /三合一/));
+t('LABA+ICS, prior response, high symptoms, pneumonia → LABA+LAMA', () => assert.match(D({ cur: 'labaics', icsResp: 'yes', mmrc: 3, flags: { pna: true } }).title, /改為 LABA \+ LAMA/));
+t('LABA+ICS, no exac, high eos alone does not escalate', () => assert.doesNotMatch(D({ cur: 'labaics', icsResp: 'no', ...LOW, eos: 400 }).title, /三合一/));
+t('LABA+ICS, no exac, response unknown → ask', () => assert.match(D({ cur: 'labaics', eos: 150 }).title, /先確認過去對 ICS 的反應/));
+t('LABA+ICS + asthma controlled → maintain, no "should not stay" text', () => {
+  const r = D({ cur: 'labaics', main: 'ok', ...LOW, flags: { asth: true } });
+  assert.match(r.title, /維持現行治療/); assert.match(r.detail, /ICS 不可撤除/);
+});
+t('LABA+ICS + asthma uncontrolled text follows asthma principle', () => assert.match(D({ cur: 'labaics', flags: { asth: true } }).detail, /依氣喘原則/));
+for (const o of [{ mod: 2 }, { sev: 1 }, { mod: 1 }]) t(`LABA+ICS exacerbating ${JSON.stringify(o)}, eos missing → test eos first`, () => assert.match(D({ cur: 'labaics', main: 'exac', ...o }).title, /先檢驗/));
+t('LABA+ICS exacerbating, eos 100 → triple; eos 99 → LABA+LAMA', () => {
+  assert.match(D({ cur: 'labaics', main: 'exac', mod: 1, eos: 100 }).title, /三合一/);
+  assert.match(D({ cur: 'labaics', main: 'exac', mod: 1, eos: 99 }).title, /改為 LABA \+ LAMA/);
+});
+t('triple + low eos + pneumonia flags withdrawal as appropriate', () => assert.match(D({ cur: 'triple', main: 'exac', mod: 2, eos: 60, flags: { pna: true } }).detail, /應考慮撤除/));
+const trim = o => D({ main: 'exac', fev: 40, mod: 2, eos: 150, ...o }).nhi.filter(n => /Trimbow 路徑|Trimbow 條文/.test(n[1])).map(n => n[1]).join('');
+t('Trimbow: LABA+LAMA patient not eligible', () => { assert.match(trim({ cur: 'dual' }), /目前不符合/); assert.doesNotMatch(trim({ cur: 'dual' }), /可走 Trimbow/); });
+t('Trimbow: LABA+ICS patient eligible', () => assert.match(trim({ cur: 'labaics' }), /可走 Trimbow/));
+t('Trimbow: single exacerbation on LABA+ICS asks to confirm', () => assert.match(trim({ cur: 'labaics', mod: 1 }), /只有 1 次/));
+t('dupilumab: no chronic bronchitis points to mepolizumab', () => assert.match(D({ cur: 'triple', main: 'exac', sev: 1, eos: 350 }).detail, /選 mepolizumab/));
+t('ensifentrine: not suggested on monotherapy or triple', () => {
+  assert.doesNotMatch(D({ cur: 'mono' }).title + D({ cur: 'mono' }).steps.join(''), /加用 Ensifentrine/);
+  assert.ok(!has(D({ cur: 'triple' }).steps, /考慮加用/));
+});
+t('reference text: audit wording', () => {
+  for (const x of ['id="q_ics"', 'data-v="ok"', '急性低血氧性呼吸衰竭的首選', 'Dupilumab <b>限有慢性支氣管炎者</b>', '條文未列 LABA+LAMA', '條文沒有 EOS 門檻']) assert.ok(html.includes(x), x);
+  for (const x of ['延後啟用', '<b>第一線</b>用於急性呼吸衰竭', 'COPD 不應長期停留', '證據最一致']) assert.ok(!html.includes(x), x);
+});
+
+t('AE tab notes the Rome vs GOLD Fig 4.2 difference and its source limit', () => {
+  for (const x of ['GOLD 圖與原始 Rome 提案的血氣條件不同', 'PMC12702271', '未直接核對 Celli 2021 原文']) assert.ok(html.includes(x), x);
+});
 
 console.log('Teaching tabs');
 const block = (a, b) => { const x = html.match(new RegExp('/\\*' + a + '-START\\*/([\\s\\S]*?)/\\*' + a + '-END\\*/')); if (!x) throw new Error(a + ' block not found'); return new Function(x[1] + '\nreturn ' + b)(); };

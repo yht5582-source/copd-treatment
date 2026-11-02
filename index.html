@@ -341,10 +341,20 @@ footer a:hover{text-decoration:underline}
       </select>
     </div>
 
+    <div class="fg" id="wrap_ics">
+      <label class="lbl">先前對 ICS 的反應 <em>（目前用 LABA + ICS 時適用）</em></label>
+      <select id="q_ics">
+        <option value="">— 未確認 —</option>
+        <option value="yes">曾有惡化，用 LABA + ICS 後改善</option>
+        <option value="no">沒有相關惡化史，或用後沒有改善</option>
+      </select>
+    </div>
+
     <div class="fg" id="wrap_main">
       <label class="lbl">⑦ 目前主要未解決問題 <em>（已用藥者適用）</em></label>
       <div class="opts" id="q_main">
-        <button class="opt on" data-v="dysp">持續呼吸困難／運動耐力差</button>
+        <button class="opt on" data-v="ok">控制良好，無需調整</button>
+        <button class="opt" data-v="dysp">持續呼吸困難／運動耐力差</button>
         <button class="opt" data-v="exac">持續急性惡化</button>
         <button class="opt" data-v="both">兩者皆有</button>
       </div>
@@ -495,7 +505,7 @@ footer a:hover{text-decoration:underline}
 <p><span class="n">健保 2</span>三合一僅 Trelegy／Trimbow／Breztri 有 COPD 給付（Enerzair 僅氣喘），每 28 天限 1 盒。</p>
 <p><span class="n">健保 3</span><b>健保條文要求先有雙療法控制不佳之紀錄，不支持治療初診直接起始三合一。</b></p>
 <p style="margin-top:8px">→ 完整條文見<b>附錄</b>分頁。</p></div>
-<div class="note d"><b>不要這樣做</b>在沒有氣喘特徵的 COPD 病人，<b>不應以 LABA + ICS 作為起始或維持治療</b>——預防惡化效果不如 LABA+LAMA 或三合一，且增加肺炎風險。若病人目前在此組合，應重新評估：加 LAMA 成三合一，或（無 ICS 指徵時）改為 LABA+LAMA。</div>
+<div class="note d"><b>不要這樣做</b>在沒有氣喘特徵的 COPD 病人，<b>不應以 LABA + ICS 作為起始治療</b>——有 ICS 指徵時三合一較佳。若病人已在用此組合：控制良好可繼續；仍有惡化，Eos ≥100 升三合一，&lt;100 改 LABA+LAMA；症狀明顯則依先前 ICS 反應選擇其一。</div>
 </div>
 
 <h2>二、後續追蹤治療（已在用藥者）</h2>
@@ -506,7 +516,7 @@ footer a:hover{text-decoration:underline}
 <ul>
 <li>單方 → <b>升階為 LABA + LAMA</b></li>
 <li>已用 LABA+LAMA 仍喘 → <b>更換吸入裝置或分子</b>；<b>加用 ensifentrine</b>（PDE3/4 雙抑制劑，霧化 3 mg BID）<span class="fn">健保 6</span>；強化肺復健；重新找其他原因</li>
-<li>已用 LABA+ICS 仍喘 → <b>加 LAMA</b>（成三合一）；若無 ICS 指徵，改 LABA+LAMA</li>
+<li>已用 LABA+ICS 仍喘 → 依先前 ICS 反應：曾有惡化且用後改善 → <b>加 LAMA</b>（成三合一）；沒有相關惡化史或用後沒有改善 → 改 LABA+LAMA</li>
 <li><b>不建議</b>單純為了症狀而加 ICS</li>
 </ul>
 
@@ -515,20 +525,21 @@ footer a:hover{text-decoration:underline}
 <tr><th>目前用藥</th><th>BEC</th><th>下一步</th></tr>
 <tr><td>單方（LABA 或 LAMA）</td><td>任何</td><td>→ <b>LABA + LAMA</b>；若 BEC ≥300 可直接 → 三合一</td></tr>
 <tr><td rowspan="2">LABA + LAMA</td><td><b>≥100</b></td><td>→ 加 ICS，成 <b>三合一 LABA+LAMA+ICS</b><span class="fn">健保 2</span></td></tr>
-<tr><td><b>&lt;100</b></td><td>→ 加 <b>roflumilast</b>（限 FEV₁ &lt;50% 且慢性支氣管炎）<span class="fn">健保 4</span> 或 <b>azithromycin</b>（前吸菸者優先）<span class="fn">健保 5</span></td></tr>
-<tr><td>LABA + ICS</td><td>任何</td><td>→ 加 LAMA 成三合一</td></tr>
-<tr><td rowspan="3">三合一仍持續惡化</td><td><b>≥300</b></td><td>→ 考慮 <b>生物製劑</b>：dupilumab（合併慢性支氣管炎者）或 mepolizumab<span class="fn">健保 7</span></td></tr>
-<tr><td>任何</td><td>→ <b>roflumilast</b>（FEV₁&lt;50% + 慢性支氣管炎）／<b>azithromycin</b>（前吸菸者優先，療程約 1 年）</td></tr>
+<tr><td><b>&lt;100</b></td><td>→ 加 <b>roflumilast</b>（限 FEV₁ &lt;50%、慢性支氣管炎，且曾因惡化住院）<span class="fn">健保 4</span> 或 <b>azithromycin</b>（前吸菸者優先）<span class="fn">健保 5</span></td></tr>
+<tr><td rowspan="2">LABA + ICS</td><td><b>≥100</b></td><td>→ 加 LAMA 成<b>三合一</b></td></tr>
+<tr><td><b>&lt;100</b></td><td>→ 改為 <b>LABA + LAMA</b></td></tr>
+<tr><td rowspan="3">三合一仍持續惡化</td><td><b>≥300</b>，且過去一年 ≥2 次中度或 ≥1 次重度惡化</td><td>→ 考慮 <b>生物製劑</b>：dupilumab（合併慢性支氣管炎者）或 mepolizumab<span class="fn">健保 7</span></td></tr>
+<tr><td>任何</td><td>→ <b>roflumilast</b>（FEV₁ &lt;50%、慢性支氣管炎，且曾因惡化住院）／<b>azithromycin</b>（前吸菸者優先，療程約 1 年）</td></tr>
 <tr><td><b>&lt;100</b> 且無 ICS 反應</td><td>→ 評估 <b>撤除 ICS</b>（需維持雙支氣管擴張劑並密切追蹤）</td></tr>
 </table>
 <div class="fnbox"><div class="h">健保附註</div>
-<p><span class="n">健保 2</span>升階三合一時：<b>Trelegy</b> 限 Group D；<b>Trimbow</b> 限 post-BD FEV₁ &lt;50% + 反覆惡化；<b>Breztri</b> 為唯一可涵蓋 Group B 者。三款皆須已接受雙療法而控制不佳。</p>
+<p><span class="n">健保 2</span>升階三合一時：<b>Trelegy</b> 限 Group D；<b>Trimbow</b> 限 FEV₁ &lt;50% 預測值 + 反覆惡化，且須用過 ICS+LABA；<b>Breztri</b> 為唯一可涵蓋 Group B 者。Trelegy、Breztri 接受 ICS+LABA 或 LABA+LAMA 後控制不佳。</p>
 <p><span class="n">健保 4</span>Roflumilast 依核准適應症：FEV₁ &lt;50% + 慢性支氣管炎 + 頻繁惡化。</p>
 <p><span class="n">健保 5</span>Azithromycin 預防惡化屬<b>仿單外使用</b>，無給付條文。</p>
 <p><span class="n">健保 6</span><b>Ensifentrine 台灣尚未上市。</b></p>
 <p><span class="n">健保 7</span><b>台灣健保不給付生物製劑於 COPD</b>；僅嚴重氣喘可申請（需事前審查）。合併氣喘者可循氣喘適應症送審。</p>
 <p style="margin-top:8px">→ 完整條文見<b>附錄</b>分頁。</p></div>
-<div class="note"><b>兩個嗜酸性球門檻不要搞混</b>「<b>≥300</b>」用於<b>起始</b>治療時決定要不要一開始就加 ICS，以及生物製劑的資格；「<b>≥100</b>」用於<b>已在雙支氣管擴張劑但仍惡化</b>時，決定要不要加 ICS。</div>
+<div class="note"><b>兩個嗜酸性球門檻不要搞混</b>「<b>≥300</b>」用於<b>起始</b>治療時決定要不要一開始就加 ICS，也是生物製劑的條件之一；「<b>≥100</b>」用於<b>已在雙支氣管擴張劑但仍惡化</b>時，決定要不要加 ICS。</div>
 </div>
 
 <h2>三、ICS 使用決策</h2>
@@ -579,11 +590,11 @@ footer a:hover{text-decoration:underline}
 <div class="card">
 <table>
 <tr><th>藥物</th><th>適應族群</th><th>劑量</th><th>注意</th></tr>
-<tr><td><b>Roflumilast</b><span class="fn">健保 4</span><br><span class="en">PDE4 inhibitor</span></td><td>FEV₁ &lt;50%、慢性支氣管炎、已用最佳吸入治療仍惡化</td><td>500 µg PO QD</td><td>腹瀉、體重下降、噁心、失眠、憂鬱／自殺意念。BMI 低者慎用。</td></tr>
+<tr><td><b>Roflumilast</b><span class="fn">健保 4</span><br><span class="en">PDE4 inhibitor</span></td><td>FEV₁ &lt;50%、慢性支氣管炎，且曾因惡化住院，已用最佳吸入治療仍惡化</td><td>500 µg PO QD</td><td>腹瀉、體重下降、噁心、失眠、憂鬱／自殺意念。BMI 低者慎用。</td></tr>
 <tr><td><b>Azithromycin</b><span class="fn">健保 5</span></td><td>已用最佳吸入治療仍惡化，<b>前吸菸者效果較佳</b></td><td>250 mg QD 或 500 mg 每週 3 次，約 1 年</td><td>QTc 延長、聽力受損、細菌抗藥性。用藥前查 ECG 與聽力；<b>目前仍吸菸者效益有限</b>。</td></tr>
-<tr><td><b>Ensifentrine</b><span class="fn">健保 6</span><br><span class="en">PDE3/4 inhibitor</span></td><td>單方或雙支氣管擴張劑仍症狀控制不佳者之<b>加成用藥</b></td><td>3 mg 霧化吸入 BID</td><td>2026 新納入；可作為延後啟用 ICS 的策略，但效果幅度小於三合一。</td></tr>
-<tr><td><b>Dupilumab</b><span class="fn">健保 7</span><br><span class="en">anti-IL-4Rα</span></td><td>三合一仍惡化 + <b>BEC ≥300</b> + 慢性支氣管炎表現</td><td>300 mg SC 每 2 週</td><td>BOREAS／NOTUS：惡化下降約 30–34%，且改善 FEV₁ 與症狀。GOLD 2026 Evidence A。</td></tr>
-<tr><td><b>Mepolizumab</b><span class="fn">健保 7</span><br><span class="en">anti-IL-5</span></td><td>三合一仍惡化 + <b>BEC ≥300</b>（不論有無慢性支氣管炎）</td><td>100 mg SC 每 4 週</td><td>METREX／METREO／MATINEE：惡化下降約 18–21%；肺功能與生活品質改善不顯著。</td></tr>
+<tr><td><b>Ensifentrine</b><span class="fn">健保 6</span><br><span class="en">PDE3/4 inhibitor</span></td><td>LABA+LAMA 仍持續喘時<b>可考慮</b>（單方者先升 LABA+LAMA）</td><td>3 mg 霧化吸入 BID</td><td>GOLD 註明僅美國可取得；試驗未設計評估加在 LABA+LAMA 或三合一之上的效果。</td></tr>
+<tr><td><b>Dupilumab</b><span class="fn">健保 7</span><br><span class="en">anti-IL-4Rα</span></td><td>三合一下過去一年 ≥2 次中度或 ≥1 次重度惡化 + <b>BEC ≥300</b> + 慢性支氣管炎表現</td><td>300 mg SC 每 2 週</td><td>BOREAS／NOTUS：惡化下降約 30–34%，且改善 FEV₁ 與症狀。GOLD 2026 Evidence A。</td></tr>
+<tr><td><b>Mepolizumab</b><span class="fn">健保 7</span><br><span class="en">anti-IL-5</span></td><td>三合一下過去一年 ≥2 次中度或 ≥1 次重度惡化 + <b>BEC ≥300</b>（不論有無慢性支氣管炎）</td><td>100 mg SC 每 4 週</td><td>METREX／METREO／MATINEE：惡化下降約 18–21%；肺功能與生活品質改善不顯著。</td></tr>
 <tr><td><b>Benralizumab</b></td><td>—</td><td>—</td><td><b>未顯示可降低惡化率，不建議用於 COPD。</b></td></tr>
 <tr><td><b>黏液調節劑</b></td><td>未用 ICS 而反覆惡化者</td><td>N-acetylcysteine、carbocysteine、erdosteine</td><td>部分族群可減少惡化。</td></tr>
 <tr><td><b>α1-antitrypsin 補充</b></td><td>確診 AATD 且有肺氣腫者</td><td>每週靜脈輸注</td><td>可延緩肺氣腫進展。</td></tr>
@@ -671,7 +682,7 @@ footer a:hover{text-decoration:underline}
 <li><b>Opioids</b>：晚期難治性呼吸困難可用低劑量嗎啡改善症狀與健康狀態。</li>
 <li><b>營養</b>：BMI &lt;21 或體重下降者給予營養補充；肌少症須合併阻力訓練。</li>
 <li><b>非藥物緩喘</b>：手持風扇吹向臉部、神經肌肉電刺激、胸壁震動、呼吸控制技巧、針灸／指壓。</li>
-<li><b>Vitamin D</b>：缺乏者（&lt;20 ng/mL）補充可減少惡化。</li>
+<li><b>Vitamin D</b>：因惡化住院者應評估是否重度缺乏（&lt;10 ng/mL），有需要時補充；部分研究顯示可減少惡化。</li>
 <li><b>自我管理與行動計畫</b>：附書面行動計畫並有個案管理師支援，可降低住院。</li>
 <li><b>安寧與預立醫療照護諮商</b>：晚期 COPD 應及早討論。</li>
 <li><b>心理照護</b>：焦慮／憂鬱盛行率高，應主動篩檢與治療。</li>
@@ -696,13 +707,14 @@ footer a:hover{text-decoration:underline}
 <tr><td><b>重度 Severe</b></td><td>需<b>急診就醫或住院</b>；可能合併急性呼吸衰竭</td><td><b>計入</b></td></tr>
 </table>
 
-<h3>Rome 提案（依就診時客觀嚴重度）</h3>
+<h3>Rome 提案（依就診時客觀嚴重度；上表依 GOLD 2026 Fig 4.2）</h3>
 <table>
 <tr><th>等級</th><th>判定</th></tr>
 <tr><td><b>Mild</b></td><td>呼吸困難 VAS &lt;5、RR &lt;24/min、HR &lt;95/min、靜息 SpO₂ ≥92%（且較基礎值下降 ≤3%）、CRP &lt;10 mg/L（未達中度標準）</td></tr>
-<tr><td><b>Moderate</b></td><td>下列 5 項中<b>符合 ≥3 項</b>：VAS ≥5、RR ≥24/min、HR ≥95/min、SpO₂ &lt;92% 或較基礎值下降 &gt;3%、CRP ≥10 mg/L；可有低血氧（PaO₂ ≤60 mmHg）及／或高碳酸血症，但<b>無酸中毒</b></td></tr>
-<tr><td><b>Severe</b></td><td>同中度之臨床表現，且動脈血液氣體出現<b>高碳酸血症（PaCO₂ &gt;45 mmHg）合併酸中毒（pH &lt;7.35）</b></td></tr>
+<tr><td><b>Moderate</b></td><td>下列 5 項中<b>符合 ≥3 項</b>：VAS ≥5、RR ≥24/min、HR ≥95/min、SpO₂ &lt;92% 或較基礎值下降 &gt;3%、CRP ≥10 mg/L；若驗血氣，可見低血氧（PaO₂ 70–80 mmHg）</td></tr>
+<tr><td><b>Severe</b></td><td>同中度之臨床表現；若驗血氣，可見<b>低血氧（PaO₂ ≤60 mmHg）及／或高碳酸血症合併酸中毒（PaCO₂ &gt;45 mmHg 且 pH &lt;7.35）</b></td></tr>
 </table>
+<div class="note w"><b>GOLD 圖與原始 Rome 提案的血氣條件不同</b>原始 Rome 提案（Celli 2021）：<b>中度</b>可有 PaO₂ ≤60 mmHg 及／或高碳酸血症，但沒有酸中毒；<b>重度</b>為高碳酸血症合併酸中毒。GOLD 2026 Fig 4.2 則把 PaO₂ ≤60 mmHg 列在重度，中度改列 PaO₂ 70–80 mmHg。例如 PaO₂ 55 mmHg、沒有酸中毒的病人，依原始提案屬中度，依 GOLD 圖屬重度。<br><small>原始提案內容引自 Int J Chron Obstruct Pulmon Dis 2025 的 Rome 驗證研究（PMC12702271）轉述，未直接核對 Celli 2021 原文。</small></div>
 <small>GOLD 2026 第 4 章全面改寫，強化就診時的客觀嚴重度評估與氧療指引。</small>
 </div>
 
@@ -724,10 +736,10 @@ footer a:hover{text-decoration:underline}
 <tr><th>項目</th><th>建議</th></tr>
 <tr><td><b>支氣管擴張劑</b></td><td>SABA ± SAMA 為第一線（可用 MDI+spacer 或霧化）。<b>不建議</b>使用 methylxanthines。盡早恢復／啟動長效維持治療。</td></tr>
 <tr><td><b>全身性類固醇</b></td><td><b>Prednisolone 40 mg PO QD × 5 天</b>。可縮短恢復期、改善 FEV₁ 與氧合、降低早期復發。<b>不建議延長療程</b>。嗜酸性球極低者效益有限。</td></tr>
-<tr><td><b>抗生素</b></td><td>療程 <b>5 天</b>。適用於：① 痰量增加 + 痰變膿 + 呼吸困難加重（三項具備），② 具備膿痰 + 另一項，③ 需要呼吸器支持者。首選依當地抗藥性：aminopenicillin/clavulanate、macrolide、tetracycline。可參考 CRP 或 procalcitonin 輔助判斷。</td></tr>
-<tr><td><b>氧氣治療</b></td><td>目標 <b>SpO₂ 88–92%</b>（避免高濃度氧誘發 CO₂ 滯留）。給氧後 30–60 分鐘應複查血液氣體。</td></tr>
-<tr><td><b>高流量鼻導管 <span class="en">HFNC</span></b></td><td>2026 納入；用於低血氧性呼吸衰竭，可作為常規氧療與 NIV 之間的選項。</td></tr>
-<tr><td><b>非侵襲性通氣 <span class="en">NIV</span></b></td><td><b>第一線</b>用於急性呼吸衰竭。適應症（符合其一）：① 呼吸性酸中毒 PaCO₂ ≥45 mmHg 且 pH ≤7.35；② 嚴重呼吸困難併呼吸肌疲勞徵象；③ 其他方式無法矯正之低血氧。可降低插管率與死亡率。</td></tr>
+<tr><td><b>抗生素</b></td><td>適用於：① 呼吸困難加重、發燒、痰量增加、痰變膿中 <b>≥2 項，且其中一項為痰變膿</b>；② 過去惡化時痰培養陽性；③ 需要呼吸器（侵襲性或非侵襲性）。療程 <b>5–7 天，門診 ≤5 天</b>。首選依當地抗藥性：aminopenicillin/clavulanate、macrolide、tetracycline，特定病人用 quinolone。床邊 CRP 可減少抗生素使用；<b>目前不建議用 procalcitonin 流程決定是否給抗生素</b>。</td></tr>
+<tr><td><b>氧氣治療</b></td><td>低血氧者給予<b>控制性氧療</b>，避免高濃度氧誘發 CO₂ 滯留，並連續監測血氣與血氧。常用目標 SpO₂ 88–92%、給氧後 30–60 分鐘複查血氣；這兩個數字未見於 GOLD 2026 第 4 章文字，屬臨床慣用做法。</td></tr>
+<tr><td><b>高流量鼻導管 <span class="en">HFNC</span></b></td><td>Fig 4.6 列為<b>急性低血氧性呼吸衰竭的首選</b>。高碳酸性呼吸衰竭仍以 NIV 為主；ERS 指引建議此時 NIV 優於 HFNC。</td></tr>
+<tr><td><b>非侵襲性通氣 <span class="en">NIV</span></b></td><td>用於<b>高碳酸性呼吸衰竭，或 HFNC 無反應者</b>（Fig 4.6）；GOLD 第 4 章內文另寫 NIV 為急性呼吸衰竭的初始模式，兩處不一致。適應症（符合其一）：① 呼吸性酸中毒 PaCO₂ ≥45 mmHg 且 pH ≤7.35；② 嚴重呼吸困難併呼吸肌疲勞徵象；③ 其他方式無法矯正之低血氧。可降低插管率與死亡率。</td></tr>
 <tr><td><b>侵襲性通氣</b></td><td>NIV 失敗或無法忍受、呼吸或心跳停止、意識障礙、大量吸入、血流動力學不穩、嚴重心律不整。</td></tr>
 <tr><td><b>其他</b></td><td>維持體液平衡、預防靜脈血栓（LMWH）、處理共病、戒菸介入。</td></tr>
 </table>
@@ -739,7 +751,7 @@ footer a:hover{text-decoration:underline}
 <ul>
 <li><b>1–4 週內</b>回診：評估症狀、CAT、吸入技術、是否需要調整維持治療、是否需長期氧氣。</li>
 <li><b>12–16 週</b>回診：肺功能複查、CAT、共病評估。</li>
-<li>惡化後恢復期可長達 <b>4–6 週</b>；部分病人肺功能無法回到原水準。</li>
+<li>惡化症狀通常持續 <b>7–10 天</b>，部分更久；<b>8 週時仍有至多 20%</b> 未回到惡化前狀態。</li>
 <li><b>心血管風險</b>：中度或重度惡化後<b>長達一年內</b>心肌梗塞、中風、心衰竭風險顯著上升——應同步優化心血管照護。</li>
 <li>惡化後應轉介肺復健（出院 4 週內啟動效益最大）。</li>
 </ul>
@@ -767,12 +779,12 @@ footer a:hover{text-decoration:underline}
 
 <div class="card">
 <h3 style="margin-top:0">4. 生物製劑正式納入（Evidence A）</h3>
-<p><b>Dupilumab</b> 與 <b>Mepolizumab</b> 同列為三合一治療下仍惡化、且 <b>BEC ≥300 cells/µL</b> 病人的選項（新增 Figure 3.11）。Dupilumab 在合併慢性支氣管炎者證據最一致（惡化下降 30–34%）；Mepolizumab 不論有無慢性支氣管炎皆可用，但肺功能與生活品質改善不顯著。<b>Benralizumab 未達療效，不建議使用。</b></p>
+<p><b>Dupilumab</b> 與 <b>Mepolizumab</b> 同列為三合一治療下過去一年 ≥2 次中度或 ≥1 次重度惡化、且 <b>BEC ≥300 cells/µL</b> 病人的選項（新增 Figure 3.11）。Dupilumab <b>限有慢性支氣管炎者</b>（惡化下降 30–34%）；Mepolizumab 不論有無慢性支氣管炎皆可用，但肺功能與生活品質改善不顯著。<b>Benralizumab 未達療效，不建議使用。</b></p>
 </div>
 
 <div class="card">
 <h3 style="margin-top:0">5. Ensifentrine 進入呼吸困難路徑</h3>
-<p>PDE3/4 雙抑制劑（霧化 3 mg BID）新增為單方或雙支氣管擴張劑症狀控制不佳時的<b>加成用藥</b>，可作為<b>延後啟用 ICS</b> 的策略，但效果幅度小於三合一。</p>
+<p>PDE3/4 雙抑制劑（霧化 3 mg BID）列在 LABA+LAMA 仍持續喘時<b>可考慮</b>的選項；單方者應先升 LABA+LAMA。GOLD 註明僅美國可取得，試驗也未設計評估加在 LABA+LAMA 或三合一之上的效果。</p>
 </div>
 
 <div class="card">
@@ -851,14 +863,14 @@ footer a:hover{text-decoration:underline}
 <table style="margin:8px 0 0">
 <tr><th>商品（條文）</th><th>成分／規格</th><th>COPD 給付條件</th><th>用量上限</th><th>不得併用</th></tr>
 <tr><td><b>Trelegy Ellipta</b> 肺樂喜<br><small>6.1 第 2 項</small></td><td>FF/UMEC/VI<br><b>限 92/55/22</b></td><td><b>GOLD Group D</b>，且已接受 ICS+LABA 或 LABA+LAMA 仍有顯著症狀或惡化控制不佳</td><td>每 28 天 1 盒<br>（30 劑）</td><td>中／高劑量 ICS/LABA 複方</td></tr>
-<tr><td><b>Trimbow</b> 喘寶<br><small>6.1 第 3 項</small></td><td>BDP/FF/GLY<br><b>限 100/6/12.5</b></td><td><b>重度以上（post-BD FEV₁ &lt; 50%）</b>且有<b>反覆惡化病史</b>，已接受 ICS+LABA 仍控制不佳</td><td>每 28 天 1 盒<br>（120 劑）</td><td>條文未列明</td></tr>
+<tr><td><b>Trimbow</b> 喘寶<br><small>6.1 第 3 項</small></td><td>BDP/FF/GLY<br><b>限 100/6/12.5</b></td><td><b>重度以上（FEV₁ 少於預測值 50%）</b>且有<b>反覆惡化病史</b>，已接受 <b>ICS+LABA</b> 仍控制不佳（條文未列 LABA+LAMA）</td><td>每 28 天 1 盒<br>（120 劑）</td><td>條文未列明</td></tr>
 <tr><td><b>Breztri Aerosphere</b><br><small>6.1 第 5 項</small></td><td>BUD/GLY/FF<br>160/7.2/5</td><td>① <b>GOLD Group D</b>；或 ② <b>GOLD Group B</b> 且（已接受多裝置 MITT 三合一，<b>或</b>已接受 ICS/LABA 或 LABA/LAMA 仍控制不佳）</td><td>每 28 天 1 盒<br>（120 劑）</td><td>其他含 ICS 或 LABA 或 LAMA 之製劑</td></tr>
 <tr><td><b>Enerzair Breezhaler</b> 艾能舒<br><small>6.1 第 4 項</small></td><td>IND/GLY/MF</td><td colspan="3"><b style="color:var(--danger)">僅限氣喘，無 COPD 給付</b></td></tr>
 </table>
-<div style="margin-top:8px"><b>Breztri 是唯一涵蓋 Group B 的三合一</b>，症狀高負荷但惡化不多者申報路徑最寬。<b>Trimbow 不看字母分組</b>，走 FEV₁ &lt;50% 路徑，post-BD 肺功能數值務必留存病歷。Trimbow 200/6/12.5（115/3/1 暫予支付）限氣喘。</div></td></tr>
+<div style="margin-top:8px"><b>Breztri 是唯一涵蓋 Group B 的三合一</b>，症狀高負荷但惡化不多者申報路徑最寬。<b>Trimbow 不看字母分組</b>，走 FEV₁ &lt;50% 路徑，前提是用過 ICS+LABA；肺功能數值務必留存病歷。Trimbow 200/6/12.5（115/3/1 暫予支付）限氣喘。</div></td></tr>
 
 <tr><td><b style="color:var(--warn)">健保 3</b><br><small>起始三合一</small></td>
-<td><b>這是 GOLD 2026 與健保條文最直接的衝突。</b>GOLD 2026 支持對 Eos ≥300 的 Group E 病人<b>治療初診即起始三合一</b>；但上述三款皆要求「<b>已先接受 ICS+LABA 或 LABA+LAMA 雙療法而控制不佳</b>」。<br>→ 實務上須先開立雙擴張劑並於病歷記錄控制不佳，再升階；或由病人自費。</td></tr>
+<td><b>這是 GOLD 2026 與健保條文最直接的衝突。</b>GOLD 2026 支持對 Eos ≥300 的 Group E 病人<b>治療初診即起始三合一</b>；但上述三款都要求<b>先有雙療法控制不佳</b>：Trelegy、Breztri 接受 ICS+LABA 或 LABA+LAMA，Trimbow 只列 ICS+LABA。<br>→ 實務上須先開立雙擴張劑並於病歷記錄控制不佳，再走 Trelegy 或 Breztri；或由病人自費。</td></tr>
 
 <tr><td><b style="color:var(--warn)">健保 4</b><br><small>Roflumilast</small></td>
 <td><b>Daxas 迪開舒</b>：第 6 節<b>無專屬給付條文</b>，依核准適應症給付——「<b>重度 COPD（post-BD FEV₁ &lt;50%）並伴隨頻繁惡化病史之成年慢性支氣管炎患者</b>，作為附加於支氣管擴張劑的維持治療」。500 mcg PO QD。<br><small>是否另有審查注意事項未能確認。</small></td></tr>
@@ -870,7 +882,7 @@ footer a:hover{text-decoration:underline}
 <td><b>Ensifentrine（Ohtuvayre）台灣尚未上市</b>，目前無法取得。2024 年 FDA 核准；查無台灣核准或上市之來源。GOLD 2026 已將其納入呼吸困難路徑，臨床上在台灣仍須以更換裝置／分子、肺部復健、排除其他喘因為主。</td></tr>
 
 <tr><td><b style="color:var(--warn)">健保 7</b><br><small>生物製劑</small></td>
-<td><b>台灣健保不給付任何生物製劑用於 COPD。</b>dupilumab（6.2.9）、mepolizumab／benralizumab（6.2.8）、omalizumab（6.2.6）、tezepelumab（6.2.10）之給付範圍<b>全部限「嚴重氣喘」</b>：需 EOS ≥300 cells/µL、已使用標準療法、過去 12 個月 ≥2 次全身性類固醇使用等；<b>皆需事前審查</b>，診斷醫師限<b>胸腔專科、過敏免疫專科</b>（兒童限小兒科）。<br><br><b>唯一可行路徑</b>：台灣胸腔暨重症加護醫學會《嚴重氣喘生物製劑申請審查建議 v1.0（2025/6/21）》載明「<b>COPD 與 Asthma 共病者不應直接排除申請，應依臨床診斷判斷適應症</b>」——合併氣喘者可循<b>嚴重氣喘</b>適應症送審，而非以 COPD 名義申請。<br><br><small>國際對照：FDA 已核准 dupilumab（2024）與 mepolizumab（2025）用於嗜酸性表現型 COPD，台灣健保尚未跟進；TFDA 許可證狀態未能確認。</small></td></tr>
+<td><b>台灣健保不給付任何生物製劑用於 COPD。</b>dupilumab（6.2.9）、mepolizumab／benralizumab（6.2.8）、omalizumab（6.2.6）、tezepelumab（6.2.10）之給付範圍<b>全部限「嚴重氣喘」</b>，且<b>皆需事前審查</b>，條件依藥品不同：<br>・<b>Mepolizumab／benralizumab、dupilumab</b>：EOS ≥300 cells/µL、已用最適切標準療法、持續使用口服類固醇（prednisolone ≥5 mg/天，期間依藥品與年齡），且過去 12 個月 ≥2 次全身性類固醇、其中至少 1 次急診或住院。<br>・<b>Tezepelumab</b>：條文沒有 EOS 門檻；已用標準療法，且符合上述 ≥2 次惡化條件。<br>・<b>Omalizumab</b>：過敏性氣喘，看過敏原與 Total IgE（30–1300 IU/mL），已用高劑量 ICS 仍控制不良。<br>診斷科別依條文，主要為胸腔、過敏免疫，兒童含小兒科。<br><br><b>唯一可行路徑</b>：台灣胸腔暨重症加護醫學會《嚴重氣喘生物製劑申請審查建議 v1.0（2025/6/21）》載明「<b>COPD 與 Asthma 共病者不應直接排除申請，應依臨床診斷判斷適應症</b>」——合併氣喘者可循<b>嚴重氣喘</b>適應症送審，而非以 COPD 名義申請。<br><br><small>國際對照：FDA 已核准 dupilumab（2024）與 mepolizumab（2025）用於嗜酸性表現型 COPD，台灣健保尚未跟進；TFDA 許可證狀態未能確認。</small></td></tr>
 
 <tr><td><b style="color:var(--warn)">健保 8</b><br><small>分組落差</small></td>
 <td>健保條文仍沿用 <b>GOLD Group C／D</b> 字樣，而 GOLD 自 2023 年起已改為 <b>A／B／E</b>。<b>臨床決策用 ABE，健保申報以條文文字為準。</b>實務上「舊 Group D」約相當於「症狀高負荷（mMRC ≥2 或 CAT ≥10）＋ 高惡化風險（≥2 次中度或 ≥1 次住院）」——注意這與 GOLD 2026 的 Group E（<b>≥1 次</b>惡化）門檻已不同。</td></tr>
@@ -980,7 +992,7 @@ footer a:hover{text-decoration:underline}
 
 <div class="note w"><b>查證限制（請務必自行核對）</b>
 <ul style="margin-bottom:0">
-<li>「成人呼吸道疾患吸入製劑給付規定表」之<b>逐列原文未經逐字驗證</b>，請核對健保署第 6 節 PDF 末段原表。</li>
+<li>第 6 節（chap6_1150323）的三合一、生物製劑與長效劑型條文已於 2026-11-02 核對；COPD 給付改善方案、roflumilast 仿單與商品名表<b>未核對原始文件</b>。</li>
 <li>第 6 節分章節檔標示 115.3.23 更新，整份帶走版為 115.7.23，<b>期間可能另有異動</b>。</li>
 <li><b>Roflumilast 是否另有審查注意事項</b>、<b>TFDA 是否已核准 dupilumab／mepolizumab 之 COPD 適應症</b>均<b>未能確認</b>；可確認的是健保未給付於 COPD。</li>
 <li>給付規定與支付價經常異動，開立高價品項前請以健保署最新公告為準。</li>
@@ -989,7 +1001,7 @@ footer a:hover{text-decoration:underline}
 
 <footer>
 <p><b>資料來源</b>　GOLD（Global Initiative for Chronic Obstructive Lung Disease）2026 Report 及 2026 Pocket Guide（2025 年 11 月發布）；GOLD 2026 Key Changes Summary；相關同儕審查回顧文獻。完整原文請至 <a href="https://goldcopd.org" target="_blank">goldcopd.org</a> 下載。</p>
-<p style="margin-top:8px">本頁為臨床決策輔助工具，非官方文件、亦非 GOLD 授權之翻譯版本。用藥前請核對台灣核准適應症與健保給付規範。建立日期：2026-08-15；v1.1 除錯更新：2026-10-25；v1.2 新增示範病例、考題、心智圖：2026-11-02。</p>
+<p style="margin-top:8px">本頁為臨床決策輔助工具，非官方文件、亦非 GOLD 授權之翻譯版本。用藥前請核對台灣核准適應症與健保給付規範。建立日期：2026-08-15；v1.1 除錯更新：2026-10-25；v1.2 新增示範病例、考題、心智圖：2026-11-02；v1.3 依 GOLD 2026 Report v1.3 與健保第 6 節校正：2026-11-02。</p>
 </footer>
 
 </div>
@@ -1021,7 +1033,7 @@ showTab(location.hash.slice(1)||'tool',false);
 window.addEventListener('hashchange',()=>showTab(location.hash.slice(1)||'tool',false));
 
 /* ---------- option button groups ---------- */
-const S={dx:'1',main:'dysp'};
+const S={dx:'1',main:'ok'};
 document.querySelectorAll('.opts').forEach(g=>{
   const key=g.id.replace('q_','');
   g.querySelectorAll('.opt').forEach(b=>{
@@ -1031,13 +1043,15 @@ document.querySelectorAll('.opts').forEach(g=>{
     };
   });
 });
-['q_fev','q_mmrc','q_cat','q_mod','q_sev','q_eos','q_cur',
+['q_fev','q_mmrc','q_cat','q_mod','q_sev','q_eos','q_cur','q_ics',
  'c_cb','c_asth','c_pna','c_ntm','c_smk','c_hypox','c_hyperc','c_qt']
  .forEach(id=>{const e=document.getElementById(id);e.addEventListener('input',run);e.addEventListener('change',run);});
 
 function syncMain(){
   document.getElementById('wrap_main').style.display =
     document.getElementById('q_cur').value==='none' ? 'none' : 'block';
+  document.getElementById('wrap_ics').style.display =
+    document.getElementById('q_cur').value==='labaics' ? 'block' : 'none';
 }
 document.getElementById('q_cur').addEventListener('change',syncMain);
 
@@ -1047,11 +1061,12 @@ function rst(){
   document.getElementById('q_mod').value='0';
   document.getElementById('q_sev').value='0';
   document.getElementById('q_cur').value='none';
+  document.getElementById('q_ics').value='';
   document.querySelectorAll('.chks input').forEach(c=>c.checked=false);
   document.querySelectorAll('.opts').forEach(g=>{
     g.querySelectorAll('.opt').forEach((b,i)=>b.classList.toggle('on',i===0));
   });
-  S.dx='1'; S.main='dysp';
+  S.dx='1'; S.main='ok';
   syncMain();
   run();
 }
@@ -1112,7 +1127,7 @@ function decide(i){
   if(exac<1) trail.push(`症狀 ${hiSx?'高負荷 → Group B':'低負荷 → Group A'}`);
 
   const nonIcsSteps=[
-    '<b>Roflumilast 500 µg PO QD</b> — 限 FEV₁ &lt;50% 且有慢性支氣管炎',
+    '<b>Roflumilast 500 µg PO QD</b> — 限 FEV₁ &lt;50%、慢性支氣管炎，且曾因惡化住院',
     '<b>Azithromycin</b> 250 mg QD 或 500 mg 每週 3 次（約 1 年）— 前吸菸者效果較佳；用藥前查 ECG（QTc）與聽力',
     '未用 ICS 者可考慮黏液調節劑（NAC／carbocysteine／erdosteine）',
     '重新檢視誘因、共病與非藥物治療'];
@@ -1174,7 +1189,7 @@ function decide(i){
   /* ===== on treatment ===== */
   else{
     const curName={mono:'單一長效支氣管擴張劑',dual:'LABA + LAMA',labaics:'LABA + ICS',triple:'三合一 LABA+LAMA+ICS'}[cur];
-    trail.push(`目前 ${curName} → 走「後續追蹤治療」路徑 (Fig 3.9)，主要問題：${main==='dysp'?'呼吸困難':main==='exac'?'急性惡化':'兩者'}`);
+    trail.push(`目前 ${curName} → 走「後續追蹤治療」路徑 (Fig 3.9)，主要問題：${main==='ok'?'無，控制良好':main==='dysp'?'呼吸困難':main==='exac'?'急性惡化':'兩者'}`);
     const wantExac=(main==='exac'||main==='both');
 
     /* --- 合併氣喘但未含 ICS：先補 ICS --- */
@@ -1185,31 +1200,80 @@ function decide(i){
       trail.push('合併氣喘且未用 ICS → 優先補 ICS');
     }
 
-    /* --- LABA+ICS：重新評估 ICS 指徵 --- */
+    /* --- 控制良好：維持現行治療 (Fig 3.9, 3.12) --- */
+    else if(main==='ok'){
+      if(exac>=1){
+        title='先確認惡化是否發生在目前治療之下';
+        detail=`過去一年有 ${exac} 次中重度惡化。若發生在目前治療之下，請把主要問題改選「持續急性惡化」；若發生在開始目前治療之前，之後已穩定，可維持現行治療。`;
+        steps=['核對惡化日期與當時用藥','確認吸入技術與順從性','未確認前不要貿然停用任何吸入藥物'];
+        trail.push('選擇控制良好但有惡化史 → 先確認時序');
+      } else {
+        title=`維持現行治療：${curName}`;
+        detail='症狀與惡化都不需要調整時，GOLD 建議維持現行治療，不必為了升階而加藥。'
+          +(asth?'合併氣喘者依氣喘原則追蹤，ICS 不可撤除。':'')
+          +((cur==='labaics'||cur==='triple')&&icsContra&&!asth?'<br>有肺炎或分枝桿菌病史，請另外權衡繼續使用 ICS 的風險。':'');
+        steps=['每次回診確認吸入技術、順從性與吸菸狀態','追蹤症狀（mMRC 或 CAT）與惡化次數','每年至少一次肺功能，檢查時不必停用支氣管擴張劑','持續戒菸、疫苗與身體活動'];
+        trail.push('控制良好 → 維持現行治療 (Fig 3.9)');
+      }
+    }
+
+    /* --- LABA+ICS：依 Fig 3.12 --- */
     else if(cur==='labaics'){
-      const icsStrong = asth || eHigh || oldHiRisk;          /* GOLD：氣喘、Eos≥300、≥1 次住院或 ≥2 次中度 */
-      const icsMaybe  = exac>=1 && eos!==null && eos>=100;    /* 1 次中度 + Eos 100–299 */
-      if(asth || (!icsContra && (icsStrong||icsMaybe) && !eLow) || (eHigh && icsContra && wantExac)){
+      const toTriple=(why)=>{
         title='加上 LAMA → 三合一 LABA + LAMA + ICS';
-        detail='COPD 不應長期停留在 LABA+ICS。本例有 ICS 使用指徵（'+[asth&&'氣喘',eHigh&&'Eos ≥300',oldHiRisk&&'住院或 ≥2 次中度惡化',(!eHigh&&icsMaybe)&&`惡化 + Eos ${eos}`].filter(Boolean).join('、')+'），正確做法是加上 LAMA。'
-          +(icsContra&&!asth?'<br>注意：有肺炎／分枝桿菌病史，需密切監測 ICS 副作用。':'');
+        detail=why;
         steps=['選擇單一吸入裝置之三合一複方，避免多裝置混用',
                '確認吸入技術與順從性',
-               '4–8 週回診評估症狀與惡化',
+               '回診評估症狀、惡化與副作用',
                '若三合一下仍惡化 → 依 Eos 考慮 roflumilast／azithromycin 或生物製劑'];
-        trail.push('LABA+ICS 且有 ICS 指徵 → 加 LAMA');
-      } else if(eos===null && exac>=1 && !icsContra){
-        title='先檢驗血中嗜酸性球，再決定加 LAMA 或撤除 ICS';
-        detail='LABA+ICS 不是 COPD 的建議組合。有惡化史時：Eos ≥100 → 加 LAMA 成三合一；Eos &lt;100 → 改為 LABA+LAMA。';
-        steps=['穩定期抽驗血中嗜酸性球（建議 ≥2 次）','在結果出來前勿貿然停用 ICS','確認吸入技術與順從性'];
-        trail.push('LABA+ICS + Eos 未填 → 先補驗');
-      } else {
+      };
+      const toDual=(why)=>{
         title='改為 LABA + LAMA（撤除 ICS）';
-        detail='沒有明確 ICS 指徵（'+[eLow&&`Eos ${eos} <100`,icsContra&&'肺炎／分枝桿菌病史',exac===0&&'無惡化史'].filter(Boolean).join('、')+'）時，LABA+ICS 預防惡化效果不如雙支氣管擴張劑，且增加肺炎風險，建議轉換為 LABA+LAMA。';
+        detail=why;
         steps=['撤除 ICS 時<b>務必保留雙支氣管擴張劑</b>，勿降為單方',
-               '轉換後密切追蹤 4–8 週，注意症狀與惡化是否反彈',
+               '調整後密切追蹤，注意症狀與惡化是否反彈',
                '重新確認吸入器操作技術'];
-        trail.push('LABA+ICS 無 ICS 指徵 → 改 LABA+LAMA');
+      };
+      const contraTxt=icsContra?`有${pna?'反覆肺炎':''}${pna&&ntm?'及':''}${ntm?'分枝桿菌感染':''}病史，`:'';
+      if(asth){
+        toTriple('合併氣喘者依氣喘原則治療，ICS 不可撤除。目前仍有症狀或惡化，可加上 LAMA，並依氣喘指引調整 ICS 劑量。');
+        trail.push('合併氣喘且未控制 → 保留 ICS，加 LAMA');
+      } else if(exac>=1){
+        if(eos===null && !icsContra){
+          title='先檢驗血中嗜酸性球，再決定加 LAMA 或改 LABA+LAMA';
+          detail='用 LABA+ICS 仍有惡化時，GOLD 依 Eos 分流：≥100 加 LAMA 成三合一，&lt;100 改 LABA+LAMA。';
+          steps=['穩定期抽驗血中嗜酸性球','在結果出來前勿貿然停用 ICS','確認吸入技術與順從性'];
+          trail.push('LABA+ICS 仍惡化，Eos 未填 → 先補驗 (Fig 3.12)');
+        } else if(eos!==null && !eLow && (!icsContra || (eHigh && wantExac))){
+          toTriple(`用 LABA+ICS 仍有惡化，Eos ${eos} cells/µL（≥100），建議加上 LAMA 成三合一。`
+            +(icsContra?`<br>注意：${contraTxt}需密切監測 ICS 副作用。`:''));
+          trail.push(`LABA+ICS 仍惡化，Eos ${eos} ≥100 → 三合一 (Fig 3.12)`);
+        } else {
+          toDual(eLow?`用 LABA+ICS 仍有惡化，Eos ${eos} cells/µL（&lt;100），建議改為 LABA+LAMA。${contraTxt?'另外'+contraTxt+'ICS 風險也較高。':''}`
+                     :`用 LABA+ICS 仍有惡化，${contraTxt}ICS 風險大於預期效益，建議改為 LABA+LAMA。`);
+          trail.push('LABA+ICS 仍惡化，Eos <100 或 ICS 風險高 → 改 LABA+LAMA (Fig 3.12)');
+        }
+      } else if(i.icsResp==='yes'){
+        if(!hiSx){
+          title='可繼續 LABA + ICS';
+          detail='目前沒有惡化、症狀負荷低，而且先前對 LABA+ICS 有反應，GOLD 容許繼續使用。';
+          steps=['每次回診確認吸入技術與順從性','若再惡化，依 Eos 決定升三合一或改 LABA+LAMA','若症狀變多，考慮升三合一'];
+          trail.push('LABA+ICS，先前有反應、症狀少 → 繼續 (Fig 3.12)');
+        } else if(icsContra){
+          toDual(`先前對 ICS 有反應、症狀負荷高，原本可考慮三合一；但${contraTxt}建議權衡後改為 LABA+LAMA。`);
+          trail.push('LABA+ICS，先前有反應、症狀多，但 ICS 風險高 → 改 LABA+LAMA');
+        } else {
+          toTriple('目前沒有惡化，但症狀負荷高，且先前對 LABA+ICS 有反應，可考慮加上 LAMA 成三合一。');
+          trail.push('LABA+ICS，先前有反應、症狀多 → 考慮三合一 (Fig 3.12)');
+        }
+      } else if(i.icsResp==='no'){
+        toDual('沒有相關惡化史，或先前用 ICS 沒有改善，可考慮改為 LABA+LAMA。');
+        trail.push('LABA+ICS，無相關惡化史或無反應 → 改 LABA+LAMA (Fig 3.12)');
+      } else {
+        title='先確認過去對 ICS 的反應，再決定換藥或升階';
+        detail='目前有症狀但沒有惡化時，GOLD 依先前對 ICS 的反應決定：曾有惡化且用後改善 → 考慮三合一；沒有相關惡化史或沒有改善 → 考慮 LABA+LAMA。請在上方選擇。';
+        steps=['查閱過去的惡化紀錄，以及開始 LABA+ICS 前後的變化','確認吸入技術與順從性','排除其他造成喘的原因'];
+        trail.push('LABA+ICS 無惡化，ICS 反應未確認 → 先確認 (Fig 3.12)');
       }
     }
 
@@ -1247,7 +1311,7 @@ function decide(i){
           trail.push(`Eos ${eos} ≥100 → 加 ICS 成三合一 (Fig 3.9)`);
           steps=['選擇單一裝置之三合一複方，避免多裝置混用',
                  '確認吸入技術與順從性',
-                 '4–8 週回診評估；若三合一下仍惡化 → roflumilast／azithromycin，Eos ≥300 者考慮生物製劑',
+                 '4–8 週回診評估；若三合一下仍惡化 → roflumilast／azithromycin；Eos ≥300 且 ≥2 次中度或 ≥1 次重度者考慮生物製劑',
                  '重新檢視誘因、共病與非藥物治療'];
         } else {
           title='不建議加 ICS；改用 Roflumilast 或 Azithromycin';
@@ -1257,27 +1321,28 @@ function decide(i){
         }
       }
       else { /* triple */
-        if(eHigh){
+        if(eHigh && oldHiRisk){
           title='考慮生物製劑：Dupilumab 或 Mepolizumab';
-          detail=`已在三合一最佳化治療下仍持續惡化，且 Eos ${eos} cells/µL（≥300），符合 GOLD 2026 生物製劑（Evidence A）之族群。${cb?'合併慢性支氣管炎表現，<b>dupilumab 證據最一致</b>。':'若無慢性支氣管炎表現，mepolizumab 亦適用。'}`;
+          detail=`已在三合一最佳化治療下仍持續惡化，過去一年惡化達標（≥2 次中度或 ≥1 次重度），且 Eos ${eos} cells/µL（≥300），符合 GOLD 2026 生物製劑（Evidence A）之族群。${cb?'有慢性支氣管炎，<b>dupilumab 與 mepolizumab 都可考慮</b>。':'沒有慢性支氣管炎，<b>選 mepolizumab</b>；dupilumab 的條件與試驗族群都要求慢性支氣管炎。'}`;
           trail.push(`三合一 + 惡化 + Eos ${eos} ≥300 → 生物製劑 (Fig 3.11)`);
-          steps=[`<b>Dupilumab</b> 300 mg SC 每 2 週 — 適合合併慢性支氣管炎者；惡化下降約 30–34%，並改善 FEV₁ 與症狀`,
+          steps=[`<b>Dupilumab</b> 300 mg SC 每 2 週 — 限有慢性支氣管炎者；惡化下降約 30–34%，並改善 FEV₁ 與症狀`,
                  `<b>Mepolizumab</b> 100 mg SC 每 4 週 — 不論有無慢性支氣管炎皆可；惡化下降約 18–21%，但肺功能／生活品質改善不顯著`,
                  `<b>Benralizumab 不建議使用</b>（未顯示可降低惡化率）`,
-                 `同時可併用 roflumilast（FEV₁&lt;50% + 慢性支氣管炎）或 azithromycin（前吸菸者優先）`];
+                 `同時可併用 roflumilast（FEV₁ &lt;50%、慢性支氣管炎，且曾因惡化住院）或 azithromycin（前吸菸者優先）`];
         } else if(eLow && !asth){
-          title='評估撤除 ICS；改採 Roflumilast 或 Azithromycin';
-          detail=`Eos ${eos} cells/µL（<100）且三合一下仍持續惡化，顯示 ICS 效益有限，而肺炎風險持續累積。可考慮在保留 LABA+LAMA 的前提下撤除 ICS，並改用非 ICS 抗惡化策略。`;
-          trail.push(`三合一 + 惡化 + Eos ${eos} <100 → 考慮 ICS 退場`);
-          steps=['撤除 ICS 時<b>務必保留雙支氣管擴張劑</b>，並於 4–8 週密切追蹤',
-                 nonIcsSteps[0],nonIcsSteps[1],
+          title='加用 Roflumilast 或 Azithromycin；重新檢視 ICS 指徵';
+          detail=`三合一下仍持續惡化，Eos ${eos} cells/µL（<100）。Eos 低本身不是撤除 ICS 的理由；只有當初不該用、對 ICS 沒有反應、明顯副作用，或嚴重／反覆肺炎時才考慮。${pna?'<br>本例有反覆肺炎病史，符合應考慮撤除的情況。':''}`;
+          trail.push(`三合一 + 惡化 + Eos ${eos} <100 → 非 ICS 策略，重新檢視 ICS 指徵`);
+          steps=[nonIcsSteps[0],nonIcsSteps[1],
+                 '若決定撤除 ICS，<b>務必保留雙支氣管擴張劑</b>並密切追蹤',
                  '重新評估支氣管擴張症、慢性感染（含 NTM）、免疫球蛋白缺乏'];
         } else {
           title='加用 Roflumilast 或 Azithromycin'+(eos===null?'；並檢驗嗜酸性球確認生物製劑資格':'');
-          detail='三合一下仍持續惡化。'+(eos===null?'請補驗穩定期血中嗜酸性球：若 ≥300 cells/µL 即符合生物製劑族群。'
+          detail='三合一下仍持續惡化。'+(eos===null?'請補驗穩定期血中嗜酸性球：若 ≥300 cells/µL，且過去一年 ≥2 次中度或 ≥1 次重度惡化，即符合生物製劑族群。'
                  : eLow ? `Eos ${eos} cells/µL（<100），但合併氣喘病史，<b>不撤除 ICS</b>。`
+                 : eHigh ? `Eos ${eos} cells/µL（≥300），但過去一年 ${mod} 次中度、${sev} 次重度惡化，未達生物製劑門檻（≥2 次中度或 ≥1 次重度）；再次惡化時重新評估。`
                  : `Eos ${eos} cells/µL 介於 100–299，尚未達生物製劑門檻（≥300）；建議另次複驗確認。`);
-          trail.push(`三合一 + 惡化 + Eos ${eos===null?'未填':eos} → ${asth&&eLow?'合併氣喘保留 ICS':'尚未達生物製劑門檻'}`);
+          trail.push(`三合一 + 惡化 + Eos ${eos===null?'未填':eos} → ${asth&&eLow?'合併氣喘保留 ICS':eHigh?'Eos 達標但惡化次數未達生物製劑門檻':'尚未達生物製劑門檻'}`);
           steps=[nonIcsSteps[0],nonIcsSteps[1],
                  '穩定期<b>複驗嗜酸性球至少 2 次</b>（個體內變異大，單次易誤判）',
                  '排除支氣管擴張症、慢性細菌定植、胃食道逆流、心衰竭'];
@@ -1309,10 +1374,10 @@ function decide(i){
         steps=['<b>肺部復健</b>是此時效果量最大的介入——務必轉介',
                '完整心臟評估（心衰竭、缺血性心臟病、肺高壓）與貧血、甲狀腺篩檢',
                '評估過度充氣：胸部 CT + 肺容積；考慮支氣管內活瓣（EBV）或肺容積縮減手術',
-               '考慮加用 <b>Ensifentrine</b> 作為症狀加成',
+               'Ensifentrine 尚無加在三合一之上的試驗證據，不列為常規選項',
                '評估長期氧氣與居家 NIV 適應症',
                '晚期可用低劑量嗎啡緩和呼吸困難；及早討論安寧與預立醫療照護'];
-        if(eLow && exac===0 && !asth) steps.push(`Eos ${eos} &lt;100 且無惡化 → ICS 效益低，可評估撤除（保留 LABA+LAMA）`);
+        if(eLow && exac===0 && !asth) steps.push(`Eos ${eos} &lt;100 且無惡化：若當初沒有 ICS 指徵或用後沒有反應，可評估撤除（保留 LABA+LAMA）`);
       }
     }
   }
@@ -1323,7 +1388,7 @@ function decide(i){
   /* ---------- alerts ---------- */
   if(wantExacCheck(main) && exac===0) alerts.push(['w','核對','選擇「持續急性惡化」但過去 12 個月惡化次數為 0——請確認惡化次數（中度＝需口服類固醇／抗生素；重度＝急診／住院），分組與建議依次數判定。']);
   if(G==='E' && mod===1 && sev===0) alerts.push(['i','2026','本例因<b>單次中度惡化</b>即歸 Group E（GOLD 2026 新門檻）；在 2025 年以前的標準屬 A／B 組。']);
-  if(main==='both') alerts.push(['i','雙軌','同時有呼吸困難與惡化時，上方建議<b>優先處理惡化路徑</b>（影響預後）；症狀面請同步進行：確認吸入技術、更換裝置／分子、加用 ensifentrine、轉介肺部復健、並排除心衰竭等其他喘因。']);
+  if(main==='both') alerts.push(['i','雙軌','同時有呼吸困難與惡化時，上方建議<b>優先處理惡化路徑</b>（影響預後）；症狀面請同步進行：確認吸入技術、更換裝置／分子、已用 LABA+LAMA 者可考慮 ensifentrine、轉介肺部復健、並排除心衰竭等其他喘因。']);
   if(asth) alerts.push(['g','氣喘','合併氣喘病史 → 治療方案<b>必須含 ICS</b>，且不可使用不含 ICS 的長效支氣管擴張劑單方。']);
   if(eLow && !asth) alerts.push(['d','Eos','血中嗜酸性球 &lt;100 cells/µL → <b>不建議起始 ICS</b>；已在用 ICS 且無明確效益者應評估撤除（保留雙支氣管擴張劑）。']);
   if(pna) alerts.push(['d','肺炎','反覆肺炎病史 → ICS 相關肺炎風險顯著上升，除非有強烈適應症（氣喘、Eos ≥300 且反覆惡化）否則<b>避免使用 ICS</b>。']);
@@ -1334,8 +1399,9 @@ function decide(i){
   if(hypox) alerts.push(['d','氧療','符合長期氧氣治療（LTOT）評估條件 → 穩定期間隔 3 週測 2 次確認後開立，目標 SaO₂ ≥90%、每日 ≥15 小時，60–90 天後重新評估。']);
   if(hyperc) alerts.push(['i','NIV','慢性高碳酸血症（PaCO₂ &gt;53 mmHg）→ 考慮<b>長期居家非侵襲性通氣</b>，尤其近期曾因急性呼吸衰竭住院者（Evidence B）。同時評估 OSA。']);
   if(qt && hasAzi) alerts.push(['w','Azithro','QTc 延長／聽力障礙 → <b>使用 azithromycin 前須查 ECG 與聽力</b>，並評估其他延長 QT 之併用藥；風險高者改用其他策略。']);
-  if(hasRoflu && fev!==null && fev<50 && cb) alerts.push(['i','Roflumilast','FEV₁ &lt;50% 且合併慢性支氣管炎 → <b>符合 roflumilast 適應族群</b>（500 µg PO QD）。注意腹瀉、體重下降、憂鬱。']);
-  if(hasRoflu && !(fev!==null && fev<50 && cb)) alerts.push(['w','Roflumilast','Roflumilast 限 FEV₁ &lt;50% 且合併慢性支氣管炎；本例'+roflReason(fev,cb)+'，<b>不符合或尚無法確認</b>，優先考慮 azithromycin。']);
+  if(hasRoflu && fev!==null && fev<50 && cb && sev>=1) alerts.push(['i','Roflumilast','FEV₁ &lt;50%、慢性支氣管炎，且過去一年曾因惡化住院 → <b>符合 roflumilast 適應族群</b>（500 µg PO QD）。注意腹瀉、體重下降、憂鬱。']);
+  if(hasRoflu && fev!==null && fev<50 && cb && sev<1) alerts.push(['w','Roflumilast','FEV₁ 與慢性支氣管炎符合，但過去 12 個月沒有因惡化住院。GOLD 2026 另要求<b>曾因惡化住院</b>：請確認更早的病史；若沒有，優先考慮 azithromycin。']);
+  if(hasRoflu && !(fev!==null && fev<50 && cb)) alerts.push(['w','Roflumilast','Roflumilast 限 FEV₁ &lt;50%、慢性支氣管炎，且曾因惡化住院；本例'+roflReason(fev,cb)+'，<b>不符合或尚無法確認</b>，優先考慮 azithromycin。']);
   if(sev>=1) alerts.push(['d','住院','過去一年曾因惡化住院 → 死亡與再住院風險高。務必：出院 4 週內啟動<b>肺部復健</b>、開立書面行動計畫、1–4 週內回診。']);
   if(exac>=1) alerts.push(['w','心血管','中度或重度惡化後<b>長達一年內</b>心肌梗塞、中風與心衰竭風險顯著升高 → 應同步優化心血管風險評估與治療。']);
   if(fev!==null && fev<30) alerts.push(['i','進階','GOLD 4（FEV₁ &lt;30%）→ 評估長期氧氣、居家 NIV、肺容積縮減（EBV／LVRS）、肺移植轉介，並及早進行預立醫療照護諮商。']);
@@ -1345,15 +1411,17 @@ function decide(i){
   /* ---------- 健保附註（次要層級） ---------- */
   const nhi=[];
   if(/三合一/.test(title)){
-    nhi.push(['2','三款有 COPD 給付之三合一<b>皆要求「已先接受 ICS+LABA 或 LABA+LAMA 而控制不佳」</b>。Trelegy 限 Group D（92/55/22）；Trimbow 限 post-BD FEV₁&lt;50% + 反覆惡化（100/6/12.5）；Breztri 為唯一涵蓋 Group B 者。Enerzair 僅給付氣喘。皆每 28 天限 1 盒。']);
+    nhi.push(['2','三款有 COPD 給付之三合一都要求<b>先有雙療法控制不佳</b>：Trelegy（Group D，92/55/22）與 Breztri（Group D 或 B）接受 ICS+LABA 或 LABA+LAMA；<b>Trimbow 只列 ICS+LABA</b>，另需 FEV₁ &lt;50% 預測值與反覆惡化（100/6/12.5）。Enerzair 僅給付氣喘。皆每 28 天限 1 盒。']);
     if(cur==='none') nhi.push(['3','本例為<b>治療初診</b>直接建議三合一。GOLD 2026 支持，但<b>健保條文不支持</b>——須先開雙擴張劑並記錄控制不佳，或自費。'+(asth?'合併氣喘者可依氣喘給付規定先使用 ICS+LABA。':'')]);
-    if(fev!==null && fev<50 && exac>=1) nhi.push(['2','FEV₁ '+fev+'% &lt;50% 且有惡化史 → <b>符合 Trimbow 的健保路徑</b>（不需套用字母分組）。病歷請留 post-BD 肺功能數值。']);
+    if(fev!==null && fev<50 && exac>=1) nhi.push(['2', cur==='labaics'
+      ? 'FEV₁ '+fev+'% &lt;50%，且已用 ICS+LABA → <b>可走 Trimbow 路徑</b>（不套用字母分組）；條文要求「反覆惡化病史」'+(exac<2?'，本例只有 1 次，請確認過去病史':'')+'。病歷請留肺功能數值。'
+      : 'FEV₁ '+fev+'% &lt;50% 且有惡化史，但 <b>Trimbow 條文要求先用過 ICS+LABA</b>，本例'+(cur==='none'?'尚未用藥':'未用過此組合')+'，目前不符合；請確認過去用藥史，或評估 Trelegy／Breztri 路徑。']);
     if(!oldD) nhi.push(['8','本例<b>不符合健保條文之舊「Group D」</b>（需症狀高負荷 + ≥2 次中度或 ≥1 次住院）'+(hiSx?'；症狀高負荷者可考慮 Breztri 之 Group B 路徑':'')+'。申報分組與 GOLD 2026 ABE 不同。']);
   }
   if(/生物製劑/.test(title)){
     nhi.push(['7','<b>台灣健保不給付任何生物製劑用於 COPD</b>（僅嚴重氣喘，需事前審查，限胸腔或過敏免疫專科）。']);
     nhi.push(['7', asth
-      ? '本例<b>合併氣喘病史</b> → 可循「嚴重氣喘」適應症送事前審查（需 EOS ≥300、過去 12 個月 ≥2 次全身性類固醇使用等）。'
+      ? '本例<b>合併氣喘病史</b> → 可循「嚴重氣喘」適應症送事前審查（dupilumab、mepolizumab 需 EOS ≥300、持續使用口服類固醇，且過去 12 個月 ≥2 次全身性類固醇、其中至少 1 次急診或住院）。'
       : '本例無氣喘病史 → <b>無健保申請路徑</b>，須自費，或重新評估是否符合嚴重氣喘診斷。']);
   }
   if(hasRoflu){
@@ -1387,7 +1455,7 @@ return out;
 function readInputs(){
   return {dx:S.dx, fev:num('q_fev'), mmrc:num('q_mmrc'), cat:num('q_cat'),
     mod:num('q_mod'), sev:num('q_sev'), eos:num('q_eos'),
-    cur:document.getElementById('q_cur').value, main:S.main,
+    cur:document.getElementById('q_cur').value, main:S.main, icsResp:document.getElementById('q_ics').value,
     flags:{cb:chk('c_cb'),asth:chk('c_asth'),pna:chk('c_pna'),ntm:chk('c_ntm'),
       smk:chk('c_smk'),hypox:chk('c_hypox'),hyperc:chk('c_hyperc'),qt:chk('c_qt')}};
 }
@@ -1455,7 +1523,7 @@ function run(){
 }
 
 /* ---------- 保存輸入（僅存於本機瀏覽器） ---------- */
-const FIELDS=['q_fev','q_mmrc','q_cat','q_mod','q_sev','q_eos','q_cur'];
+const FIELDS=['q_fev','q_mmrc','q_cat','q_mod','q_sev','q_eos','q_cur','q_ics'];
 const CHKS=['c_cb','c_asth','c_pna','c_ntm','c_smk','c_hypox','c_hyperc','c_qt'];
 function saveInputs(){
   try{
